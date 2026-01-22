@@ -1,0 +1,52 @@
+<section class="page">
+	<header class="header">
+		<h2>Controls</h2>
+		<div class="actions">
+			<button class="btn" type="button" (click)="load()">Reload</button>
+			<button class="btn" type="button" (click)="logout()">Logout</button>
+		</div>
+	</header>
+
+
+	@if (state() === 'loading') {
+		<div class="hint">Lade…</div>
+	}
+	@if (state() === 'error') {
+		<div class="hint">Fehler beim Laden (JWT/Backend?)</div>
+	}
+
+	@if (state() === 'ready') {
+		<ul class="grid">
+			@for (c of controls(); track trackById($index, c)) {
+				<li class="card">
+					<div class="top">
+						<div class="left">
+							<div class="code">{{ c.code }}</div>
+							<div class="title">{{ c.title }}</div>
+							<div class="meta">{{ c.category }} • {{ c.status }}</div>
+						</div>
+
+						<button class="btn" type="button" (click)="toggle(c.id)">
+							@if (openId() === c.id) {
+								Audit ausblenden
+							} @else {
+								Audit anzeigen
+							}
+						</button>
+					</div>
+
+					@if (c.description) {
+						<div class="desc">{{ c.description }}</div>
+					}
+
+					@if (openId() === c.id) {
+						<div class="audit">
+							<pb-control-audit-timeline [controlId]="c.id" />
+
+						</div>
+					}
+				</li>
+			}
+		</ul>
+	}
+</section>

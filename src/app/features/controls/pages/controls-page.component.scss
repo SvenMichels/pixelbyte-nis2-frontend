@@ -1,0 +1,78 @@
+.page {
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+h2 {
+  margin: 0;
+}
+
+.btn {
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .04);
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hint {
+  margin-top: 12px;
+  opacity: .8;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, .02);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.left {
+  display: grid;
+  gap: 4px;
+}
+
+.code {
+  opacity: .75;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.title {
+  font-weight: 650;
+}
+
+.meta {
+  opacity: .75;
+  font-size: 12px;
+}
+
+.desc {
+  margin-top: 10px;
+  opacity: .9;
+}
+
+.audit {
+  margin-top: 12px;
+}

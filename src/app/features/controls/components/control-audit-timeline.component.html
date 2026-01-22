@@ -1,0 +1,44 @@
+<section class="timeline">
+	<header class="timeline__header">
+		<h4>Audit Timeline</h4>
+		<button class="btn" type="button" (click)="reload()" [disabled]="state === 'loading'">Reload</button>
+	</header>
+
+	@if (state === 'error') {
+		<div class="hint">Konnte Audit nicht laden (JWT/Backend?)</div>
+	}
+
+	@if (state === 'loading' && events.length === 0) {
+		<div class="hint">Lade Events…</div>
+	}
+
+	@if (events.length === 0 && state !== 'loading' && state !== 'error') {
+		<div class="hint">Noch keine Events.</div>
+	}
+
+	@if (events.length > 0) {
+		<ul class="list">
+			@for (ev of events; track trackById($index, ev)) {
+				<li class="item">
+					<div class="top">
+						<div class="title">{{ prettyTitle(ev) }}</div>
+						<div class="time">{{ ev.createdAt | date:'dd.MM.yyyy HH:mm' }}</div>
+					</div>
+
+					@if (detailsFor(ev)) {
+						<div class="details">{{ detailsFor(ev) }}</div>
+					}
+				</li>
+			}
+		</ul>
+
+		<footer class="footer">
+			<button class="btn" type="button" (click)="loadMore(false)" [disabled]="state === 'loading' || !nextCursor">
+				Mehr laden
+			</button>
+			@if (!nextCursor) {
+				<span class="end">Ende ✅</span>
+			}
+		</footer>
+	}
+</section>
