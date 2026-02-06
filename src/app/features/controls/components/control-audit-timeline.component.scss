@@ -1,93 +1,65 @@
-.timeline {
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 14px;
+.pb-audit {
   padding: 12px;
-  background: rgba(255, 255, 255, .02);
-}
-
-.timeline__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-h4 {
-  margin: 0;
-  font-size: 14px;
-  opacity: .9;
-}
-
-.btn {
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(255, 255, 255, .04);
-  color: inherit;
-  padding: 7px 10px;
-  border-radius: 10px;
-  cursor: pointer;
 }
 
-.btn:disabled {
-  opacity: .6;
-  cursor: not-allowed;
+.pb-audit__hint {
+  opacity: .85;
+  padding: 8px 0;
 }
 
-.hint {
-  margin-top: 10px;
-  opacity: .8;
-  font-size: 13px;
+.pb-audit__hint--error {
+  opacity: 1;
 }
 
-.list {
+.pb-audit__list {
   list-style: none;
   padding: 0;
-  margin: 10px 0 0 0;
+  margin: 0;
   display: grid;
   gap: 10px;
 }
 
-.item {
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, .06);
+.pb-audit__item {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, .08);
 }
 
-.item:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.top {
+.pb-audit__top {
   display: flex;
-  justify-content: space-between;
   gap: 10px;
+  align-items: center;
 }
 
-.title {
+.pb-audit__badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  opacity: .9;
+}
+
+.pb-audit__title {
   font-weight: 600;
 }
 
-.time {
-  font-size: 12px;
-  opacity: .75;
-}
-
-.details {
-  margin-top: 6px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, .18);
-  border: 1px solid rgba(255, 255, 255, .06);
-  word-break: break-word;
-}
-
-.footer {
+.pb-audit__meta {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: space-between;
+  margin-top: 6px;
+  opacity: .85;
+  font-size: 12px;
 }
 
-.end {
-  font-size: 12px;
-  opacity: .75;
+.pb-audit__details {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  opacity: .95;
+}
+
+.pb-audit__link {
+  display: inline-block;
+  margin-top: 8px;
 }

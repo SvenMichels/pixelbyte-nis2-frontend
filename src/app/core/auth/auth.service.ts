@@ -33,7 +33,7 @@ export class AuthService {
         if (!token) return false;
 
         const exp = this.getTokenExp(token);
-        if (!exp) return true; // wenn exp fehlt: akzeptieren (oder false, je nachdem)
+        if (!exp) return true;
         return Date.now() < exp * 1000;
     }
 

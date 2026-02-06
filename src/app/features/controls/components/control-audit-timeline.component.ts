@@ -1,93 +1,112 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AuditApiService, AuditEventDto } from '../../../core/api/audit-api.service';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges, signal } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 
-type UiState = 'idle' | 'loading' | 'error';
+import { ControlAuditEventDto, ControlsApiService } from '../../../core/api/controls-api.service';
+
+type UiState = 'loading' | 'ready' | 'empty' | 'error';
+
+type AuditView = {
+    badge: string;
+    title: string;
+    details?: string;
+    link?: string;
+};
 
 @Component({
     selector: 'pb-control-audit-timeline',
     standalone: true,
-    imports: [
-        CommonModule,
-        DatePipe,
-    ],
+    imports: [ CommonModule ],
     templateUrl: './control-audit-timeline.component.html',
-    styleUrls: [ './control-audit-timeline.component.scss' ],
 })
 export class ControlAuditTimelineComponent implements OnChanges {
     @Input({ required: true }) controlId!: string;
 
-    state: UiState = 'idle';
-    events: AuditEventDto[] = [];
-    nextCursor: string | null = null;
+    readonly state = signal<UiState>('loading');
+    readonly events = signal<ControlAuditEventDto[]>([]);
 
-    constructor(private readonly auditApi: AuditApiService) {
+    constructor(private readonly api: ControlsApiService) {
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['controlId']?.currentValue) this.reload();
+    ngOnChanges(): void {
+        this.load();
     }
 
-    reload(): void {
-        this.events = [];
-        this.nextCursor = null;
-        this.loadMore(true);
-    }
-
-    loadMore(reset = false): void {
+    load(): void {
         if (!this.controlId) return;
-        if (this.state === 'loading') return;
 
-        this.state = 'loading';
-        const cursor = reset ? undefined : this.nextCursor ?? undefined;
+        this.state.set('loading');
+        this.events.set([]);
 
-        this.auditApi.getEventsForControl(this.controlId, 10, cursor).subscribe({
-            next: (res) => {
-                this.events = reset ? res.items : [
-                    ...this.events,
-                    ...res.items,
-                ];
-                this.nextCursor = res.nextCursor;
-                this.state = 'idle';
-            },
-            error: () => (this.state = 'error'),
-        });
+        this.api
+          .getAuditForControl(this.controlId)
+          .pipe(finalize(() => {
+          }))
+          .subscribe({
+              next: (res: ControlAuditEventDto[]) => {
+                  const list = Array.isArray(res) ? res : [];
+                  this.events.set(list);
+                  this.state.set(list.length ? 'ready' : 'empty');
+              },
+              error: (err: unknown) => {
+                  console.error('[audit] error', err);
+                  this.state.set('error');
+              },
+          });
     }
 
-    prettyTitle(ev: AuditEventDto): string {
-        switch (ev.action) {
-            case 'STATUS_CHANGED': {
-                const from = ev.meta?.changes?.status?.from;
-                const to = ev.meta?.changes?.status?.to;
-                return from && to ? `Status geändert: ${from} → ${to}` : 'Status geändert';
-            }
-            case 'EVIDENCE_CREATED': {
-                const type = ev.meta?.snapshot?.type;
-                return type ? `Evidence hinzugefügt (${type})` : 'Evidence hinzugefügt';
-            }
-            case 'EVIDENCE_DELETED': {
-                const type = ev.meta?.snapshot?.type;
-                return type ? `Evidence gelöscht (${type})` : 'Evidence gelöscht';
-            }
-            case 'CREATED':
-                return 'Erstellt';
-            default:
-                return ev.action;
+    view(e: ControlAuditEventDto): AuditView {
+        const meta = e.meta ?? {};
+        const badge = this.badge(e.action);
+
+        if (e.action === 'CREATED' && e.entityType === 'CONTROL') {
+            const snap = meta.snapshot ?? {};
+            const code = snap.code ?? '';
+            const title = snap.title ?? 'Control';
+            const status = snap.status ? ` (${snap.status})` : '';
+            return { badge, title: `Control erstellt: ${code} – ${title}${status}` };
         }
+
+        if (e.action === 'STATUS_CHANGED' && e.entityType === 'CONTROL') {
+            const from = meta?.changes?.status?.from ?? null;
+            const to = meta?.changes?.status?.to ?? null;
+            return { badge, title: from && to ? `Status geändert: ${from} → ${to}` : 'Status geändert' };
+        }
+
+        if (e.action === 'EVIDENCE_CREATED' && e.entityType === 'EVIDENCE') {
+            const snap = meta.snapshot ?? {};
+            if (snap.type === 'NOTE') return { badge, title: 'Evidence hinzugefügt: Notiz', details: snap.note ?? undefined };
+            if (snap.type === 'LINK') return { badge, title: 'Evidence hinzugefügt: Link', link: snap.link ?? undefined };
+            return { badge, title: 'Evidence hinzugefügt' };
+        }
+
+        if (e.action === 'EVIDENCE_DELETED' && e.entityType === 'EVIDENCE') {
+            if (meta.bulk) {
+                return { badge, title: 'Evidences gelöscht (bulk)', details: `Anzahl: ${meta.deletedCount ?? '?'}` };
+            }
+
+            const snap = meta.snapshot ?? {};
+            if (snap.type === 'NOTE') return { badge, title: 'Evidence gelöscht: Notiz', details: snap.note ?? undefined };
+            if (snap.type === 'LINK') return { badge, title: 'Evidence gelöscht: Link', link: snap.link ?? undefined };
+            return { badge, title: 'Evidence gelöscht' };
+        }
+
+        return { badge, title: `${e.entityType}: ${e.action}` };
     }
 
-    detailLine(ev: AuditEventDto): string | null {
-        const snap = ev.meta?.snapshot;
-        if (!snap) return null;
-
-        if (snap.type === 'LINK' && snap.link) return snap.link;
-        if (snap.type === 'NOTE' && snap.note) return snap.note;
-        return null;
+    actorLabel(e: ControlAuditEventDto): string {
+        const actor = e.actor;
+        if (!actor?.email) return 'Unbekannt';
+        return actor.role ? `${actor.email} (${actor.role})` : actor.email;
     }
 
-    detailsFor(ev: AuditEventDto): string | null {
-        return this.detailLine(ev);
+    badge(action: ControlAuditEventDto['action']): string {
+        if (action === 'STATUS_CHANGED') return 'STATUS';
+        if (action === 'EVIDENCE_CREATED') return 'EVID+';
+        if (action === 'EVIDENCE_DELETED') return 'EVID-';
+        if (action === 'CREATED') return 'NEW';
+        return action;
     }
 
-    trackById = (_: number, ev: AuditEventDto) => ev.id;
+    trackById = (_: number, e: ControlAuditEventDto) => e.id;
 }

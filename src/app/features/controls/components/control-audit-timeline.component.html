@@ -1,44 +1,39 @@
-<section class="timeline">
-	<header class="timeline__header">
-		<h4>Audit Timeline</h4>
-		<button class="btn" type="button" (click)="reload()" [disabled]="state === 'loading'">Reload</button>
-	</header>
+<section class="pb-audit">
+	@if (state() === 'loading') {
+		<div class="pb-audit__hint">Lade Audit…</div>
+	} @else if (state() === 'error') {
+		<div class="pb-audit__hint pb-audit__hint--error">
+			Audit konnte nicht geladen werden.
+		</div>
+	} @else if (state() === 'empty') {
+		<div class="pb-audit__hint">Noch keine Audit-Events.</div>
+	} @else {
+		<ul class="pb-audit__list">
+			@for (e of events(); track trackById($index, e)) {
+				@let v = view(e);
 
-	@if (state === 'error') {
-		<div class="hint">Konnte Audit nicht laden (JWT/Backend?)</div>
-	}
-
-	@if (state === 'loading' && events.length === 0) {
-		<div class="hint">Lade Events…</div>
-	}
-
-	@if (events.length === 0 && state !== 'loading' && state !== 'error') {
-		<div class="hint">Noch keine Events.</div>
-	}
-
-	@if (events.length > 0) {
-		<ul class="list">
-			@for (ev of events; track trackById($index, ev)) {
-				<li class="item">
-					<div class="top">
-						<div class="title">{{ prettyTitle(ev) }}</div>
-						<div class="time">{{ ev.createdAt | date:'dd.MM.yyyy HH:mm' }}</div>
+				<li class="pb-audit__item">
+					<div class="pb-audit__top">
+						<span class="pb-audit__badge">{{ v.badge }}</span>
+						<span class="pb-audit__title">{{ v.title }}</span>
 					</div>
 
-					@if (detailsFor(ev)) {
-						<div class="details">{{ detailsFor(ev) }}</div>
+					<div class="pb-audit__meta">
+						<span>{{ actorLabel(e) }}</span>
+						<span>{{ e.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+					</div>
+
+					@if (v.details) {
+						<div class="pb-audit__details">{{ v.details }}</div>
+					}
+
+					@if (v.link) {
+						<a class="pb-audit__link" [href]="v.link" target="_blank" rel="noopener noreferrer">
+							Link öffnen
+						</a>
 					}
 				</li>
 			}
 		</ul>
-
-		<footer class="footer">
-			<button class="btn" type="button" (click)="loadMore(false)" [disabled]="state === 'loading' || !nextCursor">
-				Mehr laden
-			</button>
-			@if (!nextCursor) {
-				<span class="end">Ende ✅</span>
-			}
-		</footer>
 	}
 </section>

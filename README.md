@@ -1,59 +1,143 @@
-# PixelbyteNis2Frontend
+# PixelByte NIS2 Control Center -- Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+Frontend application for the **PixelByte NIS2 Control Center**.\
+A modern Angular 21 standalone dashboard for tracking NIS2 compliance
+status, controls and audits.
 
-## Development server
+This project is part of the PixelByte ecosystem and focuses on clean
+architecture, security-first design and maintainable state management.
 
-To start a local development server, run:
+------------------------------------------------------------------------
 
-```bash
-ng serve
+## Tech Stack
+
+-   Angular 21 (Standalone Components)
+-   TypeScript
+-   Signals (zoneless state management)
+-   JWT Authentication
+-   REST API (NestJS backend)
+-   Vite dev server
+
+------------------------------------------------------------------------
+
+## Features
+
+-   JWT-based authentication
+-   Route protection via `canActivate` guard
+-   Automatic token expiry handling
+-   Secure API communication via HTTP interceptor
+-   Modern Angular control flow (`@if`, `@for`)
+-   Signal-based UI state (no Zone.js)
+-   Controls dashboard with audit timeline
+
+------------------------------------------------------------------------
+
+## Project Structure (simplified)
+
+    src/
+     ├─ app/
+     │   ├─ core/
+     │   │   ├─ auth/        # AuthService, Guard, Interceptor
+     │   │   └─ api/         # API services
+     │   ├─ features/
+     │   │   └─ controls/    # NIS2 Controls UI
+     │   ├─ pages/
+     │   │   └─ login/       # Login page
+     │   └─ app.routes.ts
+     └─ main.ts
+
+------------------------------------------------------------------------
+
+## Setup
+
+### Requirements
+
+-   Node.js 18+
+-   npm 9+
+
+### Install & Run
+
+``` bash
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Frontend runs on:
 
-## Code scaffolding
+    http://localhost:4200
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Backend is expected on:
 
-```bash
-ng generate component component-name
+    http://localhost:3000
+
+API calls are proxied via `/api` (see `proxy.conf.json`).
+
+------------------------------------------------------------------------
+
+## Authentication Flow
+
+-   JWT token is stored in `localStorage`
+-   All protected routes use a `canActivate` guard
+-   Token expiry is checked using the JWT `exp` claim
+-   On invalid or expired token:
+    -   User is automatically logged out
+    -   Redirected to `/login`
+-   HTTP interceptor:
+    -   Adds `Authorization: Bearer <token>`
+    -   Handles 401 responses globally
+
+------------------------------------------------------------------------
+
+## Architecture Notes
+
+This frontend uses **Angular Signals** and runs **zoneless** (no
+`zone.js`).
+
+State updates are handled explicitly via signals:
+
+``` ts
+state = signal<'loading' | 'ready' | 'error'>('loading');
+controls = signal<ControlDto[]>([]);
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This results in: - Deterministic rendering - No hidden change
+detection - Full control over UI updates
 
-```bash
-ng generate --help
-```
+------------------------------------------------------------------------
 
-## Building
+## Related Repositories
 
-To build the project run:
+-   Backend API (NestJS):\
+    https://github.com/SvenMichels/pixelbyte-nis2-backend
 
-```bash
-ng build
-```
+------------------------------------------------------------------------
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Project Status
 
-## Running unit tests
+Early development preview.\
+Core authentication, routing and control dashboard are implemented.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Planned next steps: - Audit timeline improvements - Role-based UI (ADMIN
+/ SECURITY / AUDITOR) - Export & reporting views - NIS2 readiness
+scoring UI
 
-```bash
-ng test
-```
+------------------------------------------------------------------------
 
-## Running end-to-end tests
+## About PixelByte
 
-For end-to-end (e2e) testing, run:
+PixelByte is a personal engineering project focused on:
 
-```bash
-ng e2e
-```
+-   Cybersecurity
+-   DevSecOps
+-   Secure web architectures
+-   Learning-by-building real systems
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The NIS2 Control Center is designed as a technical showcase and learning
+platform for security engineering concepts.
 
-## Additional Resources
+------------------------------------------------------------------------
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+
+MIT License\
+Free to use, modify and build upon.
