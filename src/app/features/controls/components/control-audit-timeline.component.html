@@ -35,5 +35,14 @@
 				</li>
 			}
 		</ul>
+
+		<div class="pb-audit__pager">
+			<button class="btn" type="button" [disabled]="!hasMore() || loadingMore()" (click)="loadMore()">
+				@if (loadingMore()) { Laden… } @else { Mehr laden }
+			</button>
+			@if (!hasMore()) {
+				<span class="pb-audit__hint">Keine weiteren Events.</span>
+			}
+		</div>
 	}
 </section>

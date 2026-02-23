@@ -76,3 +76,70 @@ h2 {
 .audit {
   margin-top: 12px;
 }
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filters {
+  margin: 16px 0;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.filter-group {
+  display: grid;
+  gap: 6px;
+}
+
+.filter-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: end;
+}
+
+.input,
+.select {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 10px;
+  color: inherit;
+  padding: 8px 10px;
+}
+
+.pager {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

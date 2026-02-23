@@ -1,0 +1,154 @@
+<section class="page">
+	<header class="header">
+		<div class="header__left">
+			<a class="btn btn--ghost" [routerLink]="['/controls']">Zurück</a>
+			<div>
+				<h2>Control Details</h2>
+				@if (control()) {
+					<p class="subtitle">{{ control()!.code }} · {{ control()!.title }}</p>
+				}
+			</div>
+		</div>
+	</header>
+
+	@if (state() === 'loading') {
+		<div class="hint" aria-live="polite">Lade Control…</div>
+	} @else if (state() === 'error') {
+		<div class="hint hint--error" aria-live="polite">{{ errorMessage() ?? 'Fehler beim Laden.' }}</div>
+	} @else {
+		<section class="card">
+			<div class="card__top">
+				<div class="card__main">
+					<div class="code">{{ control()!.code }}</div>
+					<div class="title">{{ control()!.title }}</div>
+					<div class="meta">
+						<span>{{ control()!.category || 'Uncategorized' }}</span>
+						<span>•</span>
+						<span>Status: {{ control()!.status }}</span>
+					</div>
+					@if (control()!.description) {
+						<p class="desc">{{ control()!.description }}</p>
+					}
+				</div>
+
+				<div class="card__actions">
+					<label class="field" for="statusSelect">Status ändern</label>
+					<select
+						id="statusSelect"
+						class="select"
+						#statusSelect
+						[disabled]="statusUpdating()"
+						(change)="onStatusChange(statusSelect.value)"
+					>
+						@for (s of statusOptions; track s) {
+							<option [value]="s" [selected]="control()!.status === s">{{ s }}</option>
+						}
+					</select>
+				</div>
+			</div>
+		</section>
+
+		<section class="card">
+			<div class="card__top">
+				<div>
+					<h3>Evidence</h3>
+					<p class="subtitle">Nachweis hinzufügen und verwalten</p>
+				</div>
+				<button class="btn btn--ghost" type="button" (click)="deleteAllEvidence()">Alles löschen</button>
+			</div>
+
+			<div class="evidence-form">
+				<div class="field-group">
+					<label class="field" for="evidenceType">Typ</label>
+					<select id="evidenceType" class="select" #evidenceType (change)="onEvidenceTypeChange(evidenceType.value)">
+						@for (t of evidenceTypes; track t) {
+							<option [value]="t" [selected]="selectedEvidenceType() === t">{{ t }}</option>
+						}
+					</select>
+				</div>
+
+				@if (selectedEvidenceType() === 'NOTE') {
+					<div class="field-group">
+						<label class="field" for="noteInput">Notiz</label>
+						<textarea id="noteInput" class="textarea" [formControl]="noteControl" rows="3"></textarea>
+					</div>
+				} @else {
+					<div class="field-group">
+						<label class="field" for="linkInput">Link</label>
+						<input id="linkInput" class="input" type="url" [formControl]="linkControl" />
+					</div>
+				}
+
+				<div class="field-group">
+					<button class="btn" type="button" [disabled]="!canSubmitEvidence()" (click)="submitEvidence()">
+						@if (evidenceSubmitting()) { Speichern… } @else { Evidence hinzufügen }
+					</button>
+					@if (evidenceError()) {
+						<span class="hint hint--error" aria-live="polite">{{ evidenceError() }}</span>
+					}
+				</div>
+			</div>
+
+			@if (evidenceState() === 'loading') {
+				<div class="hint" aria-live="polite">Lade Evidence…</div>
+			} @else if (evidenceState() === 'error') {
+				<div class="hint hint--error" aria-live="polite">{{ evidenceError() ?? 'Fehler beim Laden.' }}</div>
+			} @else if (evidence().length === 0) {
+				<div class="hint">Noch keine Evidence.</div>
+			} @else {
+				<ul class="list">
+					@for (ev of evidence(); track trackEvidence($index, ev)) {
+						<li class="list__item">
+							<div class="list__main">
+								<div class="list__title">{{ ev.type }}</div>
+								@if (ev.note) {
+									<p class="list__text">{{ ev.note }}</p>
+								}
+								@if (ev.link) {
+									<a class="link" [href]="ev.link" target="_blank" rel="noopener noreferrer">{{ ev.link }}</a>
+								}
+								<div class="list__meta">{{ ev.createdAt | date:'dd.MM.yyyy HH:mm' }}</div>
+							</div>
+							<button class="btn btn--ghost" type="button" (click)="deleteEvidence(ev.id)">Entfernen</button>
+						</li>
+					}
+				</ul>
+			}
+		</section>
+
+		<section class="card">
+			<h3>Linked Risks</h3>
+			<p class="subtitle">Risiken, die diesem Control zugeordnet sind</p>
+			@if (linkedRisks().length === 0) {
+				<div class="hint">Keine verknüpften Risiken.</div>
+			} @else {
+				<ul class="risk-list">
+					@for (link of linkedRisks(); track trackRisk($index, link)) {
+						<li class="risk-list__item">
+							<div class="risk-list__main">
+								<div class="risk-list__title">{{ link.risk.title }}</div>
+								<div class="risk-list__meta">
+									<span>Status: {{ link.risk.status }}</span>
+									<span>•</span>
+									<span>{{ riskScore(link.risk) }}</span>
+								</div>
+								@if (link.risk.description) {
+									<p class="risk-list__desc">{{ link.risk.description }}</p>
+								}
+							</div>
+							@if (link.risk.owner?.email) {
+								<div class="risk-list__owner">Owner: {{ link.risk.owner?.email }}</div>
+							}
+						</li>
+					}
+				</ul>
+			}
+		</section>
+
+		<section class="card">
+			<h3>Audit Timeline</h3>
+			<p class="subtitle">Aktuelle Audit-Events zum Control</p>
+			<pb-control-audit-timeline [controlId]="control()!.id" [active]="true" />
+		</section>
+	}
+</section>

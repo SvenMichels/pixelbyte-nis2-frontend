@@ -1,0 +1,131 @@
+<div class="pb-dashboard">
+  <header class="pb-dashboard__header">
+    <h1>Dashboard</h1>
+    <button type="button" class="pb-btn pb-btn--ghost" (click)="load()">
+      <span>🔄 Aktualisieren</span>
+    </button>
+  </header>
+
+  @if (state() === 'loading') {
+    <div class="pb-dashboard__loading">Lade Dashboard...</div>
+  } @else if (state() === 'error') {
+    <div class="pb-dashboard__error">
+      Fehler beim Laden des Dashboards.
+      <button type="button" (click)="load()">Erneut versuchen</button>
+    </div>
+  } @else if (stats()) {
+    <div class="pb-dashboard__content">
+      <div class="pb-stats-grid">
+        <div class="pb-stat-card">
+          <h3>Controls</h3>
+          <div class="pb-stat-card__main">
+            <div class="pb-stat-card__value">{{ stats()!.controls.total }}</div>
+            <div class="pb-stat-card__label">Gesamt</div>
+          </div>
+          <div class="pb-stat-card__details">
+            <div class="pb-stat-detail">
+              <span>Mit Evidence:</span>
+              <strong>{{ stats()!.controls.withEvidence }}</strong>
+            </div>
+            <div class="pb-stat-detail pb-stat-detail--highlight" [attr.data-color]="evidenceCoverageColor()">
+              <span>Coverage:</span>
+              <strong>{{ stats()!.controls.evidenceCoveragePercent }}%</strong>
+            </div>
+          </div>
+          <a [routerLink]="['/controls']" class="pb-stat-card__link">
+            Zu Controls →
+          </a>
+        </div>
+
+        <div class="pb-stat-card">
+          <h3>Risks</h3>
+          <div class="pb-stat-card__main">
+            <div class="pb-stat-card__value">{{ stats()!.risks.total }}</div>
+            <div class="pb-stat-card__label">Gesamt</div>
+          </div>
+          <div class="pb-stat-card__details">
+            <div class="pb-stat-detail pb-stat-detail--critical">
+              <span>Critical:</span>
+              <strong>{{ stats()!.risks.byLevel.critical }}</strong>
+            </div>
+            <div class="pb-stat-detail pb-stat-detail--high">
+              <span>High:</span>
+              <strong>{{ stats()!.risks.byLevel.high }}</strong>
+            </div>
+            <div class="pb-stat-detail pb-stat-detail--medium">
+              <span>Medium:</span>
+              <strong>{{ stats()!.risks.byLevel.medium }}</strong>
+            </div>
+          </div>
+          <a [routerLink]="['/risks']" class="pb-stat-card__link">
+            Zu Risks →
+          </a>
+        </div>
+
+        <div class="pb-stat-card">
+          <h3>Audit Events</h3>
+          <div class="pb-stat-card__main">
+            <div class="pb-stat-card__value">{{ stats()!.audit.totalEvents }}</div>
+            <div class="pb-stat-card__label">Gesamt</div>
+          </div>
+          <div class="pb-stat-card__details">
+            <div class="pb-stat-detail">
+              <span>Letzte 24h:</span>
+              <strong>{{ stats()!.audit.last24h }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @if (hasTopRisks()) {
+        <section class="pb-dashboard-section">
+          <h2>🔥 Top Risks</h2>
+          <div class="pb-top-risks">
+            @for (risk of stats()!.risks.topRisks; track risk.id) {
+              <div class="pb-top-risk-item" [attr.data-level]="risk.level">
+                <div class="pb-top-risk-item__score">{{ risk.score }}</div>
+                <div class="pb-top-risk-item__content">
+                  <div class="pb-top-risk-item__title">{{ risk.title }}</div>
+                  <div class="pb-top-risk-item__level">{{ risk.level | uppercase }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <section class="pb-dashboard-section">
+        <h2>📋 Recent Changes</h2>
+        @if (!recentEvents() || recentEvents().length === 0) {
+          <div class="pb-recent-events__empty">Noch keine Events.</div>
+        } @else {
+          <div class="pb-recent-events">
+            @for (event of recentEvents(); track event.id) {
+              <div class="pb-recent-event">
+                <div class="pb-recent-event__icon">
+                  @if (event.action === 'CREATED') { ➕ }
+                  @else if (event.action === 'UPDATED') { ✏️ }
+                  @else if (event.action === 'STATUS_CHANGED') { 🔄 }
+                  @else if (event.action === 'EVIDENCE_CREATED') { 📎 }
+                  @else if (event.action === 'EVIDENCE_DELETED') { 🗑️ }
+                  @else { 📝 }
+                </div>
+                <div class="pb-recent-event__content">
+                  <div class="pb-recent-event__title">{{ formatEventTitle(event) }}</div>
+                  <div class="pb-recent-event__meta">
+                    @if (event.actor) {
+                      <span>{{ event.actor.email }}</span>
+                      <span>•</span>
+                    }
+                    <span>{{ formatDate(event.createdAt) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  }
+</div>
+

@@ -7,6 +7,54 @@
 		</div>
 	</header>
 
+	<section class="filters">
+		<div class="filter-group">
+			<label class="filter-label" for="controlSearch">Suche</label>
+			<input id="controlSearch" class="input" type="search" #controlSearch (input)="updateSearch(controlSearch.value)" />
+		</div>
+		<div class="filter-group">
+			<label class="filter-label" for="controlCategory">Kategorie</label>
+			<select id="controlCategory" class="select" #controlCategory (change)="updateCategory(controlCategory.value)">
+				<option value="">Alle</option>
+				@for (cat of availableCategories(); track cat) {
+					<option [value]="cat">{{ cat }}</option>
+				}
+			</select>
+		</div>
+		<div class="filter-group">
+			<label class="filter-label" for="controlOwner">Owner (Email)</label>
+			<input id="controlOwner" class="input" type="text" #controlOwner (input)="updateOwner(controlOwner.value)" />
+		</div>
+		<div class="filter-group">
+			<span class="filter-label">Status</span>
+			<div class="filter-chips">
+				@for (s of statusOptions; track s) {
+					<label class="filter-chip">
+						<input type="checkbox" #statusCheck [checked]="isStatusSelected(s)" (change)="toggleStatus(s, statusCheck.checked)" />
+						<span>{{ s }}</span>
+					</label>
+				}
+			</div>
+		</div>
+		<div class="filter-group">
+			<label class="filter-label" for="controlSort">Sortierung</label>
+			<div class="filter-row">
+				<select id="controlSort" class="select" #controlSort (change)="updateSortKey(controlSort.value)">
+					<option value="code">Code</option>
+					<option value="title">Titel</option>
+					<option value="status">Status</option>
+					<option value="category">Kategorie</option>
+				</select>
+				<select class="select" #controlSortDir (change)="updateSortDir(controlSortDir.value)">
+					<option value="asc">Aufsteigend</option>
+					<option value="desc">Absteigend</option>
+				</select>
+			</div>
+		</div>
+		<div class="filter-actions">
+			<button class="btn" type="button" (click)="clearFilters()">Filter zurücksetzen</button>
+		</div>
+	</section>
 
 	@if (state() === 'loading') {
 		<div class="hint">Lade…</div>
@@ -17,7 +65,7 @@
 
 	@if (state() === 'ready') {
 		<ul class="grid">
-			@for (c of controls(); track trackById($index, c)) {
+			@for (c of filteredControls(); track trackById($index, c)) {
 				<li class="card">
 					<div class="top">
 						<div class="left">
@@ -26,13 +74,16 @@
 							<div class="meta">{{ c.category }} • {{ c.status }}</div>
 						</div>
 
-						<button class="btn" type="button" (click)="toggle(c.id)">
-							@if (openId() === c.id) {
-								Audit ausblenden
-							} @else {
-								Audit anzeigen
-							}
-						</button>
+						<div class="actions">
+							<a class="btn" [routerLink]="['/controls', c.id]">Details</a>
+							<button class="btn" type="button" (click)="toggle(c.id)">
+								@if (openId() === c.id) {
+									Audit ausblenden
+								} @else {
+									Audit anzeigen
+								}
+							</button>
+						</div>
 					</div>
 
 					@if (c.description) {
@@ -41,12 +92,20 @@
 
 					@if (openId() === c.id) {
 						<div class="audit">
-							<pb-control-audit-timeline [controlId]="c.id" />
-
+							<pb-control-audit-timeline [controlId]="c.id" [active]="openId() === c.id" />
 						</div>
 					}
 				</li>
 			}
 		</ul>
+
+		<div class="pager">
+			<button class="btn" type="button" [disabled]="!canLoadMore()" (click)="loadMore()">
+				@if (loadingMore()) { Laden… } @else { Mehr laden }
+			</button>
+			@if (!hasMore() && controls().length > 0) {
+				<span class="hint">Alle Controls geladen.</span>
+			}
+		</div>
 	}
 </section>
