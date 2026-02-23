@@ -1,0 +1,160 @@
+.page {
+  display: grid;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card__main {
+  display: grid;
+  gap: 8px;
+}
+
+.card__actions {
+  display: grid;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  opacity: 0.75;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  opacity: 0.8;
+}
+
+.desc {
+  margin: 0;
+  opacity: 0.85;
+}
+
+.metrics {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.metric {
+  display: grid;
+  gap: 4px;
+}
+
+.metric__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.metric__value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.field {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.input,
+.select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: inherit;
+  padding: 8px 10px;
+}
+
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.link-list__item {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.link-list__title {
+  font-weight: 600;
+}
+
+.link-list__meta {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.link {
+  color: inherit;
+}
+
+.link-controls {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.link-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hint {
+  opacity: 0.8;
+}
+
+.hint--error {
+  color: #ffb4b4;
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

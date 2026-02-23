@@ -1,0 +1,167 @@
+<div class="pb-risks-page">
+  <header class="pb-risks-page__header">
+    <h1>Risk Management</h1>
+    <button type="button" class="pb-btn pb-btn--primary">
+      <span>+ Neues Risiko</span>
+    </button>
+  </header>
+
+  <section class="pb-risk-filters">
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskSearch">Suche</label>
+      <input id="riskSearch" class="pb-input" type="search" #riskSearch (input)="updateSearch(riskSearch.value)" />
+    </div>
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskStatus">Status</label>
+      <select id="riskStatus" class="pb-select" #riskStatus (change)="updateStatusFilter(riskStatus.value)">
+        <option value="">Alle</option>
+        @for (s of statusOptions; track s) {
+          <option [value]="s">{{ getStatusLabel(s) }}</option>
+        }
+      </select>
+    </div>
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskLevel">Level</label>
+      <select id="riskLevel" class="pb-select" #riskLevel (change)="updateLevelFilter(riskLevel.value)">
+        <option value="">Alle</option>
+        <option value="low">LOW</option>
+        <option value="medium">MEDIUM</option>
+        <option value="high">HIGH</option>
+        <option value="critical">CRITICAL</option>
+      </select>
+    </div>
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskMin">Score min</label>
+      <input id="riskMin" class="pb-input" type="number" min="0" max="25" #riskMin (input)="updateMinScore(riskMin.value)" />
+    </div>
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskMax">Score max</label>
+      <input id="riskMax" class="pb-input" type="number" min="0" max="25" #riskMax (input)="updateMaxScore(riskMax.value)" />
+    </div>
+    <div class="pb-risk-filters__group">
+      <label class="pb-risk-filters__label" for="riskSort">Sortierung</label>
+      <div class="pb-risk-filters__row">
+        <select id="riskSort" class="pb-select" #riskSort (change)="updateSortKey(riskSort.value)">
+          <option value="score">Score</option>
+          <option value="title">Titel</option>
+          <option value="status">Status</option>
+        </select>
+        <select class="pb-select" #riskSortDir (change)="updateSortDir(riskSortDir.value)">
+          <option value="desc">Absteigend</option>
+          <option value="asc">Aufsteigend</option>
+        </select>
+      </div>
+    </div>
+    <div class="pb-risk-filters__actions">
+      <button type="button" class="pb-btn pb-btn--ghost" (click)="clearFilters()">Filter zurücksetzen</button>
+    </div>
+  </section>
+
+  @if (state() === 'loading') {
+    <div class="pb-risks-page__loading">Lade Risiken…</div>
+  } @else if (state() === 'error') {
+    <div class="pb-risks-page__error">
+      Fehler beim Laden der Risiken.
+      <button type="button" (click)="load()">Erneut versuchen</button>
+    </div>
+  } @else {
+    <!-- Statistics Cards -->
+    <div class="pb-risk-stats">
+      <div class="pb-risk-stat-card">
+        <div class="pb-risk-stat-card__value">{{ totalRisks() }}</div>
+        <div class="pb-risk-stat-card__label">Gesamt</div>
+      </div>
+      <div class="pb-risk-stat-card pb-risk-stat-card--critical">
+        <div class="pb-risk-stat-card__value">{{ criticalRisks() }}</div>
+        <div class="pb-risk-stat-card__label">Kritisch</div>
+      </div>
+      <div class="pb-risk-stat-card pb-risk-stat-card--high">
+        <div class="pb-risk-stat-card__value">{{ highRisks() }}</div>
+        <div class="pb-risk-stat-card__label">Hoch</div>
+      </div>
+      <div class="pb-risk-stat-card pb-risk-stat-card--medium">
+        <div class="pb-risk-stat-card__value">{{ mediumRisks() }}</div>
+        <div class="pb-risk-stat-card__label">Mittel</div>
+      </div>
+      <div class="pb-risk-stat-card pb-risk-stat-card--open">
+        <div class="pb-risk-stat-card__value">{{ openRisks() }}</div>
+        <div class="pb-risk-stat-card__label">Offen</div>
+      </div>
+    </div>
+
+    <!-- Risks List -->
+    <div class="pb-risks-list">
+      @if (filteredRisks().length === 0) {
+        <div class="pb-risks-list__empty">
+          Keine Risiken vorhanden.
+        </div>
+      } @else {
+        @for (risk of filteredRisks(); track trackById($index, risk)) {
+          <article class="pb-risk-card">
+            <header class="pb-risk-card__header">
+              <div>
+                <h3 class="pb-risk-card__title">{{ risk.title }}</h3>
+                <a class="pb-link" [routerLink]="['/risks', risk.id]">Details</a>
+              </div>
+
+              <div class="pb-risk-card__badges">
+                <span class="pb-badge pb-badge--status" [attr.data-status]="risk.status">
+                  {{ getStatusLabel(risk.status) }}
+                </span>
+                <span class="pb-badge pb-badge--level" [attr.data-level]="getRiskLevel(risk)">
+                  {{ getRiskLevel(risk) | uppercase }}
+                </span>
+              </div>
+            </header>
+
+            @if (risk.description) {
+              <p class="pb-risk-card__description">{{ risk.description }}</p>
+            }
+
+            <div class="pb-risk-card__metrics">
+              <div class="pb-risk-metric">
+                <span class="pb-risk-metric__label">Schweregrad</span>
+                <span class="pb-risk-metric__value">{{ risk.severity }}/5</span>
+              </div>
+              <div class="pb-risk-metric">
+                <span class="pb-risk-metric__label">Eintrittswahrscheinlichkeit</span>
+                <span class="pb-risk-metric__value">{{ risk.likelihood }}/5</span>
+              </div>
+              <div class="pb-risk-metric">
+                <span class="pb-risk-metric__label">Auswirkung</span>
+                <span class="pb-risk-metric__value">{{ risk.impact }}/5</span>
+              </div>
+              <div class="pb-risk-metric pb-risk-metric--score">
+                <span class="pb-risk-metric__label">Risk Score</span>
+                <span class="pb-risk-metric__value">{{ calculateScore(risk) }}</span>
+              </div>
+            </div>
+
+            <footer class="pb-risk-card__footer">
+              <div class="pb-risk-card__meta">
+                @if (risk.owner) {
+                  <span>Owner: {{ risk.owner.email }}</span>
+                }
+                <span>Erstellt: {{ risk.createdAt | date:'dd.MM.yyyy' }}</span>
+              </div>
+
+              <button
+                type="button"
+                class="pb-btn pb-btn--ghost pb-btn--sm"
+                (click)="toggleAudit(risk.id)">
+                @if (isAuditOpen(risk.id)) { Audit ausblenden } @else { Audit anzeigen }
+              </button>
+            </footer>
+
+            @if (isAuditOpen(risk.id)) {
+              <pb-risk-audit-timeline
+                [riskId]="risk.id"
+                [active]="isAuditOpen(risk.id)" />
+            }
+          </article>
+        }
+      }
+    </div>
+  }
+</div>
+

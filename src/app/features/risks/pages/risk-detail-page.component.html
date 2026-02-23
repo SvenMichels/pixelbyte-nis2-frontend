@@ -1,0 +1,143 @@
+<section class="page">
+  <header class="header">
+    <div class="header__left">
+      <a class="btn btn--ghost" [routerLink]="['/risks']">Zurück</a>
+      <div>
+        <h2>Risk Details</h2>
+        @if (risk()) {
+          <p class="subtitle">{{ risk()!.title }}</p>
+        }
+      </div>
+    </div>
+  </header>
+
+  @if (state() === 'loading') {
+    <div class="hint" aria-live="polite">Lade Risk…</div>
+  } @else if (state() === 'error') {
+    <div class="hint hint--error" aria-live="polite">{{ errorMessage() ?? 'Fehler beim Laden.' }}</div>
+  } @else {
+    <section class="card">
+      <div class="card__top">
+        <div class="card__main">
+          <div class="title">{{ risk()!.title }}</div>
+          <div class="meta">
+            <span>Status: {{ risk()!.status }}</span>
+            <span>•</span>
+            <span>Score: {{ riskScore(risk()!) }}</span>
+            <span>•</span>
+            <span>Level: {{ riskLevel(risk()!) | uppercase }}</span>
+          </div>
+          @if (risk()!.description) {
+            <p class="desc">{{ risk()!.description }}</p>
+          }
+        </div>
+
+        <div class="card__actions">
+          <label class="field" for="riskStatus">Status ändern</label>
+          <select
+            id="riskStatus"
+            class="select"
+            #riskStatus
+            [disabled]="statusUpdating()"
+            (change)="onStatusChange(riskStatus.value)"
+          >
+            @for (s of statusOptions; track s) {
+              <option [value]="s" [selected]="risk()!.status === s">{{ s }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="metric__label">Schweregrad</span>
+          <span class="metric__value">{{ risk()!.severity }}/5</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Eintrittswahrscheinlichkeit</span>
+          <span class="metric__value">{{ risk()!.likelihood }}/5</span>
+        </div>
+        <div class="metric">
+          <span class="metric__label">Auswirkung</span>
+          <span class="metric__value">{{ risk()!.impact }}/5</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Linked Controls</h3>
+      <p class="subtitle">Controls, die diesem Risk zugeordnet sind</p>
+
+      <div class="link-controls">
+        <label class="field" for="controlSearch">Control suchen (Code/Titel)</label>
+        <input id="controlSearch" class="input" type="search" [formControl]="controlSearch" placeholder="z. B. GOV-01" />
+        @if (controlsState() === 'loading') {
+          <div class="hint">Suche läuft…</div>
+        } @else if (controlsState() === 'error') {
+          <div class="hint hint--error">Controls konnten nicht geladen werden.</div>
+        } @else if (availableControls().length > 0) {
+          <ul class="link-list">
+            @for (item of availableControls(); track trackAvailableControl($index, item)) {
+              <li class="link-list__item">
+                <div class="link-list__main">
+                  <div class="link-list__title">{{ item.code }} – {{ item.title }}</div>
+                  <div class="link-list__meta">
+                    <span>Status: {{ item.status }}</span>
+                    @if (item.category) {
+                      <span>•</span>
+                      <span>{{ item.category }}</span>
+                    }
+                  </div>
+                </div>
+                <button class="btn btn--ghost" type="button" [disabled]="linkLoading()" (click)="linkControl(item.id)">
+                  Verknüpfen
+                </button>
+              </li>
+            }
+          </ul>
+        }
+        @if (linkError()) {
+          <div class="hint hint--error">{{ linkError() }}</div>
+        }
+      </div>
+
+      @if (linkedControls().length === 0) {
+        <div class="hint">Keine verknüpften Controls.</div>
+      } @else {
+        <ul class="link-list">
+          @for (link of linkedControls(); track trackControl($index, link)) {
+            <li class="link-list__item">
+              <div class="link-list__main">
+                <div class="link-list__title">{{ link.control.code }} – {{ link.control.title }}</div>
+                <div class="link-list__meta">
+                  <span>Status: {{ link.control.status }}</span>
+                  @if (link.control.category) {
+                    <span>•</span>
+                    <span>{{ link.control.category }}</span>
+                  }
+                </div>
+              </div>
+              <div class="link-actions">
+                <a class="link" [routerLink]="['/controls', link.control.id]">Zum Control</a>
+                <button
+                  class="btn btn--ghost"
+                  type="button"
+                  [disabled]="unlinkLoadingId() === link.controlId"
+                  (click)="unlinkControl(link.controlId)"
+                >
+                  @if (unlinkLoadingId() === link.controlId) { Entfernen… } @else { Entfernen }
+                </button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <section class="card">
+      <h3>Audit Timeline</h3>
+      <p class="subtitle">Aktuelle Audit-Events zum Risk</p>
+      <pb-risk-audit-timeline [riskId]="risk()!.id" [active]="true" />
+    </section>
+  }
+</section>
