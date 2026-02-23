@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type AuditAction = 'CREATED' | 'STATUS_CHANGED' | 'EVIDENCE_CREATED' | 'EVIDENCE_DELETED';
@@ -12,7 +12,7 @@ export interface AuditEventDto {
     entityId: string;
     controlId?: string | null;
     actorId?: string | null;
-    meta?: any;
+    meta?: unknown;
     createdAt: string;
 }
 
@@ -23,8 +23,7 @@ export interface AuditEventsResponseDto {
 
 @Injectable({ providedIn: 'root' })
 export class AuditApiService {
-    constructor(private readonly http: HttpClient) {
-    }
+    private readonly http = inject(HttpClient);
 
     getEventsForControl(controlId: string, limit = 20, cursor?: string): Observable<AuditEventsResponseDto> {
         let params = new HttpParams()

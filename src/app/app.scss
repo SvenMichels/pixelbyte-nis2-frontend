@@ -1,0 +1,68 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-nav {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  &__user {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+
+  &__links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &__link {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.7;
+    transition: all 0.2s;
+
+    &:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &.active {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 600;
+    }
+  }
+}
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+
+  &--full {
+    // Full screen for login page
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

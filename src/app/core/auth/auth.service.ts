@@ -1,63 +1,69 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, map, of, tap } from 'rxjs';
 
-type Role = 'ADMIN' | 'SECURITY' | 'AUDITOR' | 'USER';
+type Role = 'USER' | 'ADMIN' | 'SECURITY' | 'AUDITOR';
+
+interface User {
+    id: string;
+    email: string;
+    role: Role;
+}
 
 interface LoginResponse {
-    accessToken: string;
-    user: { id: string; email: string; role: Role };
+    ok: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private readonly http = inject(HttpClient);
-    private readonly TOKEN_KEY = 'accessToken';
+
+    readonly currentUser = signal<User | null>(null);
+    readonly isAuthenticated = signal<boolean>(false);
+
+    getCsrfToken() {
+        return this.http.get<{ ok: boolean }>('/api/auth/csrf');
+    }
+
+    refresh() {
+        return this.http.post<{ ok: boolean }>('/api/auth/refresh', {});
+    }
 
     login(email: string, password: string) {
-        return this.http.post<LoginResponse>('/api/auth/login', { email, password }).pipe(
-          tap((res) => localStorage.setItem(this.TOKEN_KEY, res.accessToken)),
-        );
+        return this.http.post<LoginResponse>('/api/auth/login', { email, password });
     }
 
     logout() {
-        localStorage.removeItem(this.TOKEN_KEY);
+        this.currentUser.set(null);
+        this.isAuthenticated.set(false);
+
+        return this.http.post<{ ok: boolean }>('/api/auth/logout', {}).pipe(
+          catchError(() => of({ ok: true })),
+        );
     }
 
-    getToken(): string | null {
-        return localStorage.getItem(this.TOKEN_KEY);
+    loadCurrentUser() {
+        return this.http.get<User>('/api/auth/me').pipe(
+          tap((user) => {
+              this.currentUser.set(user);
+              this.isAuthenticated.set(true);
+          }),
+          catchError(() => {
+              this.currentUser.set(null);
+              this.isAuthenticated.set(false);
+              return of(null);
+          }),
+        );
     }
 
-    hasValidToken(): boolean {
-        const token = this.getToken();
-        if (!token) return false;
-
-        const exp = this.getTokenExp(token);
-        if (!exp) return true;
-        return Date.now() < exp * 1000;
-    }
-
-    private getTokenExp(token: string): number | null {
-        const payload = this.getTokenPayload(token);
-        const exp = payload?.exp;
-        return typeof exp === 'number' ? exp : null;
-    }
-
-    private getTokenPayload(token: string): any | null {
-        const parts = token.split('.');
-        if (parts.length !== 3) return null;
-
-        try {
-            const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-            const json = decodeURIComponent(
-              atob(base64)
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join(''),
-            );
-            return JSON.parse(json);
-        } catch {
-            return null;
+    checkAuth() {
+        if (this.isAuthenticated() && this.currentUser()) {
+            return of(true);
         }
+
+        return this.loadCurrentUser().pipe(
+          map((user) => !!user),
+          catchError(() => of(false)),
+        );
     }
 }
