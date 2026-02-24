@@ -50,8 +50,8 @@ export class LoginPage {
     private readonly auth = inject(AuthService);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
-    email = '';
-    password = '';
+    email = 'test@pixelbyte.dev';
+    password = 'Test123!';
     error = '';
     loading = false;
 
