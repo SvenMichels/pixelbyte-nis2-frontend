@@ -36,6 +36,14 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/nis2/",
+              "deployUrl": "/nis2/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.development.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -51,6 +59,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "baseHref": "/",
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -61,7 +70,7 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "proxy.conf.js"
           },
           "configurations": {
             "production": {

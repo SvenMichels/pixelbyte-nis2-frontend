@@ -1,11 +1,13 @@
 {
   "/api": {
-    "target": "http://localhost:3000",
-    "secure": false,
+    "target": "https://nis2.pixelbyte.dev",
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "warn",
     "pathRewrite": {
-      "^/api": ""
-    }
+      "^/api": "/api"
+    },
+    "cookieDomainRewrite": "localhost",
+    "cookiePathRewrite": "/"
   }
 }

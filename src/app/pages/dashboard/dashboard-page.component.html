@@ -1,8 +1,8 @@
 <div class="pb-dashboard">
   <header class="pb-dashboard__header">
-    <h1>Dashboard</h1>
-    <button type="button" class="pb-btn pb-btn--ghost" (click)="load()">
-      <span>🔄 Aktualisieren</span>
+    <h1 class="page-badge">Dashboard</h1>
+    <button type="button" class="btn btn--ghost" (click)="load()">
+      Aktualisieren
     </button>
   </header>
 
@@ -17,7 +17,7 @@
     <div class="pb-dashboard__content">
       <div class="pb-stats-grid">
         <div class="pb-stat-card">
-          <h3>Controls</h3>
+          <h3 class="section-badge">Controls</h3>
           <div class="pb-stat-card__main">
             <div class="pb-stat-card__value">{{ stats()!.controls.total }}</div>
             <div class="pb-stat-card__label">Gesamt</div>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="pb-stat-card">
-          <h3>Risks</h3>
+          <h3 class="section-badge">Risks</h3>
           <div class="pb-stat-card__main">
             <div class="pb-stat-card__value">{{ stats()!.risks.total }}</div>
             <div class="pb-stat-card__label">Gesamt</div>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="pb-stat-card">
-          <h3>Audit Events</h3>
+          <h3 class="section-badge">Audit Events</h3>
           <div class="pb-stat-card__main">
             <div class="pb-stat-card__value">{{ stats()!.audit.totalEvents }}</div>
             <div class="pb-stat-card__label">Gesamt</div>
@@ -79,7 +79,7 @@
 
       @if (hasTopRisks()) {
         <section class="pb-dashboard-section">
-          <h2>🔥 Top Risks</h2>
+          <h2 class="section-badge">Top Risks</h2>
           <div class="pb-top-risks">
             @for (risk of stats()!.risks.topRisks; track risk.id) {
               <div class="pb-top-risk-item" [attr.data-level]="risk.level">
@@ -95,7 +95,7 @@
       }
 
       <section class="pb-dashboard-section">
-        <h2>📋 Recent Changes</h2>
+        <h2 class="section-badge">Recent Changes</h2>
         @if (!recentEvents() || recentEvents().length === 0) {
           <div class="pb-recent-events__empty">Noch keine Events.</div>
         } @else {
@@ -103,12 +103,12 @@
             @for (event of recentEvents(); track event.id) {
               <div class="pb-recent-event">
                 <div class="pb-recent-event__icon">
-                  @if (event.action === 'CREATED') { ➕ }
-                  @else if (event.action === 'UPDATED') { ✏️ }
-                  @else if (event.action === 'STATUS_CHANGED') { 🔄 }
-                  @else if (event.action === 'EVIDENCE_CREATED') { 📎 }
-                  @else if (event.action === 'EVIDENCE_DELETED') { 🗑️ }
-                  @else { 📝 }
+                  @if (event.action === 'CREATED') { + }
+                  @else if (event.action === 'UPDATED') { ~ }
+                  @else if (event.action === 'STATUS_CHANGED') { S }
+                  @else if (event.action === 'EVIDENCE_CREATED') { E+ }
+                  @else if (event.action === 'EVIDENCE_DELETED') { E- }
+                  @else { * }
                 </div>
                 <div class="pb-recent-event__content">
                   <div class="pb-recent-event__title">{{ formatEventTitle(event) }}</div>

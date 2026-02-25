@@ -1,9 +1,9 @@
 <section class="page">
 	<header class="header">
 		<div class="header__left">
-			<a class="btn btn--ghost" [routerLink]="['/controls']">Zurück</a>
+			<a class="btn btn--ghost" [routerLink]="['/controls']">← Zurück</a>
 			<div>
-				<h2>Control Details</h2>
+				<h2 class="page-badge">Control Details</h2>
 				@if (control()) {
 					<p class="subtitle">{{ control()!.code }} · {{ control()!.title }}</p>
 				}
@@ -51,10 +51,10 @@
 		<section class="card">
 			<div class="card__top">
 				<div>
-					<h3>Evidence</h3>
+					<h3 class="section-badge">Evidence</h3>
 					<p class="subtitle">Nachweis hinzufügen und verwalten</p>
 				</div>
-				<button class="btn btn--ghost" type="button" (click)="deleteAllEvidence()">Alles löschen</button>
+				<button class="btn btn--danger btn--sm" type="button" (click)="deleteAllEvidence()">Alles löschen</button>
 			</div>
 
 			<div class="evidence-form">
@@ -80,7 +80,7 @@
 				}
 
 				<div class="field-group">
-					<button class="btn" type="button" [disabled]="!canSubmitEvidence()" (click)="submitEvidence()">
+					<button class="btn btn--primary" type="button" [disabled]="!canSubmitEvidence()" (click)="submitEvidence()">
 						@if (evidenceSubmitting()) { Speichern… } @else { Evidence hinzufügen }
 					</button>
 					@if (evidenceError()) {
@@ -109,7 +109,7 @@
 								}
 								<div class="list__meta">{{ ev.createdAt | date:'dd.MM.yyyy HH:mm' }}</div>
 							</div>
-							<button class="btn btn--ghost" type="button" (click)="deleteEvidence(ev.id)">Entfernen</button>
+							<button class="btn btn--danger btn--sm" type="button" (click)="deleteEvidence(ev.id)">Entfernen</button>
 						</li>
 					}
 				</ul>
@@ -117,7 +117,7 @@
 		</section>
 
 		<section class="card">
-			<h3>Linked Risks</h3>
+			<h3 class="section-badge">Linked Risks</h3>
 			<p class="subtitle">Risiken, die diesem Control zugeordnet sind</p>
 			@if (linkedRisks().length === 0) {
 				<div class="hint">Keine verknüpften Risiken.</div>
@@ -146,7 +146,7 @@
 		</section>
 
 		<section class="card">
-			<h3>Audit Timeline</h3>
+			<h3 class="section-badge">Audit Timeline</h3>
 			<p class="subtitle">Aktuelle Audit-Events zum Control</p>
 			<pb-control-audit-timeline [controlId]="control()!.id" [active]="true" />
 		</section>

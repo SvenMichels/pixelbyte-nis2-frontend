@@ -13,14 +13,6 @@ h2 {
   margin: 0;
 }
 
-.btn {
-  border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(255, 255, 255, .04);
-  color: inherit;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
 
 .hint {
   margin-top: 12px;
@@ -142,4 +134,33 @@ h2 {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 10px;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .top {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .pager {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

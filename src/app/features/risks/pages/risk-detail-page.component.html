@@ -1,9 +1,9 @@
 <section class="page">
   <header class="header">
     <div class="header__left">
-      <a class="btn btn--ghost" [routerLink]="['/risks']">Zurück</a>
+      <a class="btn btn--ghost" [routerLink]="['/risks']">← Zurück</a>
       <div>
-        <h2>Risk Details</h2>
+        <h2 class="page-badge">Risk Details</h2>
         @if (risk()) {
           <p class="subtitle">{{ risk()!.title }}</p>
         }
@@ -65,7 +65,7 @@
     </section>
 
     <section class="card">
-      <h3>Linked Controls</h3>
+      <h3 class="section-badge">Linked Controls</h3>
       <p class="subtitle">Controls, die diesem Risk zugeordnet sind</p>
 
       <div class="link-controls">
@@ -89,7 +89,7 @@
                     }
                   </div>
                 </div>
-                <button class="btn btn--ghost" type="button" [disabled]="linkLoading()" (click)="linkControl(item.id)">
+                <button class="btn btn--primary btn--sm" type="button" [disabled]="linkLoading()" (click)="linkControl(item.id)">
                   Verknüpfen
                 </button>
               </li>
@@ -118,9 +118,9 @@
                 </div>
               </div>
               <div class="link-actions">
-                <a class="link" [routerLink]="['/controls', link.control.id]">Zum Control</a>
+                <a class="btn btn--ghost btn--sm" [routerLink]="['/controls', link.control.id]">Zum Control</a>
                 <button
-                  class="btn btn--ghost"
+                  class="btn btn--danger btn--sm"
                   type="button"
                   [disabled]="unlinkLoadingId() === link.controlId"
                   (click)="unlinkControl(link.controlId)"
@@ -135,7 +135,7 @@
     </section>
 
     <section class="card">
-      <h3>Audit Timeline</h3>
+      <h3 class="section-badge">Audit Timeline</h3>
       <p class="subtitle">Aktuelle Audit-Events zum Risk</p>
       <pb-risk-audit-timeline [riskId]="risk()!.id" [active]="true" />
     </section>

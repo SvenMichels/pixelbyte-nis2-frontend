@@ -1,14 +1,38 @@
 ﻿<div class="app-container">
   @if (auth.isAuthenticated() && auth.currentUser()) {
-    <nav class="app-nav">
-      <div class="app-nav__brand">
-        <h1>NIS2 Compliance</h1>
-        <span class="app-nav__user">{{ auth.currentUser()?.email }}</span>
+    <nav class="app-nav" role="navigation" aria-label="Hauptnavigation">
+      <div class="app-nav__left">
+        <div class="app-nav__brand">
+          <h1>NIS2 Compliance</h1>
+          <span class="app-nav__user">{{ auth.currentUser()?.email }}</span>
+        </div>
       </div>
-      <div class="app-nav__links">
-        <a routerLink="/dashboard" routerLinkActive="active" class="app-nav__link">Dashboard</a>
-        <a routerLink="/controls" routerLinkActive="active" class="app-nav__link">Controls</a>
-        <a routerLink="/risks" routerLinkActive="active" class="app-nav__link">Risks</a>
+
+      <button
+        type="button"
+        class="app-nav__burger"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="app-nav-menu"
+        aria-label="Menü öffnen"
+        (click)="toggleMenu()"
+      >
+        <span class="app-nav__burger-line"></span>
+        <span class="app-nav__burger-line"></span>
+        <span class="app-nav__burger-line"></span>
+      </button>
+
+      <div
+        class="app-nav__menu"
+        id="app-nav-menu"
+        [class.app-nav__menu--open]="menuOpen()"
+      >
+        <a routerLink="/dashboard" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Dashboard</a>
+        <a routerLink="/controls" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Controls</a>
+        <a routerLink="/risks" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Risks</a>
+
+        <div class="app-nav__spacer"></div>
+
+        <button type="button" class="app-nav__logout" (click)="logout()">Logout</button>
       </div>
     </nav>
   }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { ControlDto, ControlsApiService, ControlStatus } from '../../../core/api/controls-api.service';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -87,7 +87,6 @@ export class ControlsPageComponent implements OnInit {
 
     private readonly controlsApi = inject(ControlsApiService);
     private readonly auth = inject(AuthService);
-    private readonly router = inject(Router);
 
     ngOnInit(): void {
         if (!this.auth.isAuthenticated() || !this.auth.currentUser()) {
@@ -146,13 +145,6 @@ export class ControlsPageComponent implements OnInit {
           });
     }
 
-    logout(): void {
-        this.auth.logout();
-        this.openId.set(null);
-        this.controls.set([]);
-        this.state.set('loading');
-        this.router.navigateByUrl('/login');
-    }
 
     toggle(id: string): void {
         this.openId.update((curr) => (curr === id ? null : id));

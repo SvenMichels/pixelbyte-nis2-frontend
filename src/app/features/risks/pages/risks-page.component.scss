@@ -8,6 +8,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(15, 20, 32, .92), rgba(12, 17, 27, .92));
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .55);
 
     h1 {
       margin: 0;
@@ -255,3 +260,47 @@
   margin-top: 0.25rem;
   font-size: 0.875rem;
 }
+
+@media (max-width: 600px) {
+  .pb-risks-page {
+    padding: 1rem;
+  }
+
+  .pb-risks-page__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .pb-risk-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pb-risk-stat-card__value {
+    font-size: 1.75rem;
+  }
+
+  .pb-risk-card__header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pb-risk-card__metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pb-risk-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .pb-risk-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .pb-risk-filters__row {
+    flex-direction: column;
+  }
+}
+

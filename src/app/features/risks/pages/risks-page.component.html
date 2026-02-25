@@ -1,8 +1,8 @@
 <div class="pb-risks-page">
   <header class="pb-risks-page__header">
-    <h1>Risk Management</h1>
-    <button type="button" class="pb-btn pb-btn--primary">
-      <span>+ Neues Risiko</span>
+    <h1 class="page-badge">Risk Management</h1>
+    <button type="button" class="btn btn--primary">
+      Neues Risiko
     </button>
   </header>
 
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="pb-risk-filters__actions">
-      <button type="button" class="pb-btn pb-btn--ghost" (click)="clearFilters()">Filter zurücksetzen</button>
+      <button type="button" class="btn btn--ghost" (click)="clearFilters()">Filter zurücksetzen</button>
     </div>
   </section>
 
@@ -147,7 +147,7 @@
 
               <button
                 type="button"
-                class="pb-btn pb-btn--ghost pb-btn--sm"
+                class="btn btn--ghost btn--sm"
                 (click)="toggleAudit(risk.id)">
                 @if (isAuditOpen(risk.id)) { Audit ausblenden } @else { Audit anzeigen }
               </button>
