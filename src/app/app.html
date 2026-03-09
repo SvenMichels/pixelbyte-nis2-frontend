@@ -1,4 +1,4 @@
-﻿<div class="app-container">
+﻿﻿<div class="app-container">
   @if (auth.isAuthenticated() && auth.currentUser()) {
     <nav class="app-nav" role="navigation" aria-label="Hauptnavigation">
       <div class="app-nav__left">
@@ -29,6 +29,7 @@
         <a routerLink="/dashboard" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Dashboard</a>
         <a routerLink="/controls" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Controls</a>
         <a routerLink="/risks" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Risks</a>
+        <a routerLink="/nis2-info" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">NIS2 Info</a>
 
         <div class="app-nav__spacer"></div>
 
@@ -37,7 +38,9 @@
     </nav>
   }
 
-  <main class="app-main" [class.app-main--full]="!auth.isAuthenticated()">
+  <main class="app-main">
     <router-outlet />
   </main>
+
+  <app-footer />
 </div>

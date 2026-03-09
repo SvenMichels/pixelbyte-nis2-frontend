@@ -9,6 +9,10 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./pages/login/login-page').then((m) => m.LoginPage),
     },
+    {
+        path: 'nis2-info',
+        loadComponent: () => import('./pages/nis2-info/nis2-info-page.component').then((m) => m.Nis2InfoPageComponent),
+    },
 
     { path: 'dashboard', component: DashboardPageComponent, canActivate: [ authGuard ] },
     {
