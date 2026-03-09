@@ -1,0 +1,679 @@
+/* ============================
+   NIS2 Info Page
+   ============================ */
+
+.nis2-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* ---------- Header ---------- */
+.nis2-header {
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+
+.nis2-header__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nis2-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nis2-header__title {
+  font-weight: 720;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+  color: var(--text);
+}
+
+.nis2-header__product {
+  font-size: 0.8rem;
+  font-family: var(--mono);
+  opacity: 0.45;
+  letter-spacing: 0.4px;
+}
+
+.nis2-header__spacer {
+  flex: 1;
+}
+
+.nis2-header__back {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text, #e7edf7);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+
+  .material-symbols-outlined {
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    border-color: rgba(122, 162, 255, 0.4);
+    background: rgba(122, 162, 255, 0.06);
+    color: rgba(122, 162, 255, 0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(122, 162, 255, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Article ---------- */
+
+.nis2-info {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ---------- Hero ---------- */
+.nis2-hero {
+  text-align: center;
+  padding: 3rem 1.5rem 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nis2-hero__badge {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(122, 162, 255, 0.95);
+  background: rgba(122, 162, 255, 0.1);
+  border: 1px solid rgba(122, 162, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.nis2-hero__title {
+  margin: 0 0 0.8rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.nis2-hero__lead {
+  margin: 0 auto;
+  max-width: 640px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--muted, rgba(231, 237, 247, 0.65));
+}
+
+/* ---------- Content ---------- */
+.nis2-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* ---------- Section ---------- */
+.nis2-section__title {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  font-weight: 750;
+  letter-spacing: -0.2px;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(67, 255, 210, 0.2);
+}
+
+.nis2-section p {
+  margin: 0 0 0.75rem;
+  line-height: 1.7;
+  color: var(--muted, rgba(231, 237, 247, 0.8));
+}
+
+/* ---------- Lists ---------- */
+.nis2-list {
+  margin: 0.5rem 0 0.75rem 1.25rem;
+  padding: 0;
+  line-height: 1.75;
+  color: var(--muted, rgba(231, 237, 247, 0.8));
+}
+
+.nis2-list li {
+  margin-bottom: 0.25rem;
+}
+
+.nis2-list--accent li::marker {
+  color: rgba(67, 255, 210, 0.7);
+}
+
+.nis2-list--two-col {
+  columns: 2;
+  column-gap: 2rem;
+}
+
+/* ---------- Callout ---------- */
+.nis2-callout {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border-left: 4px solid rgba(67, 255, 210, 0.5);
+  background: rgba(67, 255, 210, 0.04);
+  color: var(--muted, rgba(231, 237, 247, 0.85));
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin: 0.75rem 0;
+}
+
+.nis2-callout--info {
+  border-left-color: rgba(122, 162, 255, 0.5);
+  background: rgba(122, 162, 255, 0.04);
+}
+
+.nis2-callout--bsi {
+  border-left-color: rgba(234, 179, 8, 0.5);
+  background: rgba(234, 179, 8, 0.04);
+}
+
+/* ---------- Cards (Goals) ---------- */
+.nis2-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nis2-card {
+  position: relative;
+  padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nis2-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.nis2-card p {
+  font-size: 0.88rem;
+}
+
+/* ---------- Two Col (Entities) ---------- */
+.nis2-two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.nis2-col-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+
+  h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+}
+
+.nis2-col-card__tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 0.6rem;
+}
+
+.nis2-col-card--essential {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.nis2-col-card--important {
+  border-color: rgba(234, 179, 8, 0.25);
+  background: rgba(234, 179, 8, 0.04);
+}
+
+/* ---------- Requirements (Accordion) ---------- */
+.nis2-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.nis2-req {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.nis2-req__header {
+  padding: 0.9rem 1.25rem;
+  font-weight: 680;
+  font-size: 0.95rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &::before {
+    content: '▸';
+    display: inline-block;
+    transition: transform 0.2s ease;
+    opacity: 0.5;
+  }
+}
+
+.nis2-req__header::-webkit-details-marker {
+  display: none;
+}
+
+.nis2-req[open] > .nis2-req__header::before {
+  transform: rotate(90deg);
+}
+
+.nis2-req__body {
+  padding: 0 1.25rem 1rem;
+}
+
+/* ---------- Steps ---------- */
+.nis2-steps {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.nis2-step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+}
+
+.nis2-step__icon {
+  font-size: 1.1rem;
+}
+
+/* ---------- Timeline (Meldepflichten) ---------- */
+.nis2-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.5rem 0;
+  position: relative;
+  padding-left: 2rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.nis2-timeline__item {
+  position: relative;
+  padding: 0.75rem 0 0.75rem 1rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -1.9rem;
+    top: 1.1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+
+  &--urgent::before {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.3);
+  }
+
+  &--warning::before {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.3);
+  }
+
+  &--info::before {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.3);
+  }
+}
+
+.nis2-timeline__time {
+  font-weight: 750;
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.nis2-timeline__label {
+  font-size: 0.88rem;
+  color: var(--muted, rgba(231, 237, 247, 0.7));
+}
+
+/* ---------- Penalty Cards ---------- */
+.nis2-penalty-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 0.88rem;
+  }
+
+  &--essential {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.04);
+  }
+
+  &--important {
+    border-color: rgba(234, 179, 8, 0.3);
+    background: rgba(234, 179, 8, 0.04);
+  }
+}
+
+.nis2-penalty-card__amount {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: var(--text, #e7edf7);
+}
+
+/* ---------- Standards Grid ---------- */
+.nis2-standards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nis2-standard {
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nis2-standard--wide {
+  grid-column: 1 / -1;
+}
+
+.nis2-standard__name {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 750;
+  color: rgba(122, 162, 255, 0.95);
+}
+
+.nis2-standard__desc {
+  font-size: 0.88rem;
+}
+
+.nis2-nist-pillars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.nis2-nist-pill {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  background: rgba(122, 162, 255, 0.1);
+  border: 1px solid rgba(122, 162, 255, 0.2);
+  color: rgba(122, 162, 255, 0.9);
+}
+
+/* ---------- Sources / Quellen ---------- */
+.nis2-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.25rem;
+}
+
+.nis2-source-group__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(122, 162, 255, 0.75);
+}
+
+.nis2-source-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.nis2-source-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: rgba(122, 162, 255, 0.35);
+    background: rgba(122, 162, 255, 0.04);
+    box-shadow: 0 4px 20px rgba(122, 162, 255, 0.06);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(122, 162, 255, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+.nis2-source-card__tag {
+  font-size: 0.68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(67, 255, 210, 0.7);
+}
+
+.nis2-source-card__name {
+  font-size: 0.95rem;
+  font-weight: 720;
+  color: var(--text, #e7edf7);
+}
+
+.nis2-source-card__desc {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted, rgba(231, 237, 247, 0.6));
+  margin: 0;
+}
+
+.nis2-source-card__link {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(122, 162, 255, 0.7);
+  letter-spacing: 0.2px;
+}
+
+/* ---------- CTA Section ---------- */
+.nis2-section--cta {
+  padding: 2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(67, 255, 210, 0.15);
+  background: linear-gradient(
+                  180deg,
+                  rgba(67, 255, 210, 0.03),
+                  rgba(122, 162, 255, 0.02)
+  );
+}
+
+.nis2-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.nis2-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.88rem;
+}
+
+.nis2-feature__icon {
+  font-size: 1.3rem;
+  color: rgba(67, 255, 210, 0.8);
+}
+
+.nis2-system-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.nis2-chip {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.3px;
+  background: rgba(67, 255, 210, 0.08);
+  border: 1px solid rgba(67, 255, 210, 0.2);
+  color: rgba(67, 255, 210, 0.9);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .nis2-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .nis2-header__product {
+    display: none;
+  }
+
+  .nis2-header__back {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .nis2-info {
+    padding: 0 1rem 3rem;
+  }
+
+  .nis2-hero {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .nis2-hero__title {
+    font-size: 1.5rem;
+  }
+
+  .nis2-section__title {
+    font-size: 1.2rem;
+  }
+
+  .nis2-list--two-col {
+    columns: 1;
+  }
+
+  .nis2-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .nis2-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .nis2-standards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nis2-standard--wide {
+    grid-column: auto;
+  }
+
+  .nis2-steps {
+    flex-direction: column;
+  }
+
+  .nis2-features {
+    grid-template-columns: 1fr;
+  }
+
+  .nis2-source-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .nis2-penalty-card__amount {
+    font-size: 1.5rem;
+  }
+}
+

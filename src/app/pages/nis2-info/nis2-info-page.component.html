@@ -1,0 +1,511 @@
+<div class="nis2-page">
+
+	<header class="nis2-header" role="banner">
+		<div class="nis2-header__inner">
+			<div class="nis2-header__brand">
+				<img ngSrc="NIS2Icon.png" alt="" width="28" height="28" priority />
+				<span class="nis2-header__title">Pixelbyte</span>
+			</div>
+			<span class="nis2-header__product">NIS2 Compliance</span>
+			<div class="nis2-header__spacer"></div>
+			<a routerLink="/login" class="nis2-header__back">
+				<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+				Zurück zum Login
+			</a>
+		</div>
+	</header>
+
+<article class="nis2-info">
+
+	<!-- Hero -->
+	<header class="nis2-hero">
+		<div class="nis2-hero__inner">
+			<span class="nis2-hero__badge">EU-Richtlinie 2022/2555</span>
+			<h1 class="nis2-hero__title">NIS2 - Die EU-Richtlinie für Cybersicherheit</h1>
+			<p class="nis2-hero__lead">
+				Alles, was Sie über die NIS2-Richtlinie wissen müssen - Anforderungen, Pflichten, Strafen
+				und wie das PixelByte Control Center Sie bei der Umsetzung unterstützt.
+			</p>
+		</div>
+	</header>
+
+	<div class="nis2-content">
+
+		<!-- Was ist NIS2? -->
+		<section class="nis2-section" id="was-ist-nis2">
+			<h2 class="nis2-section__title">Was ist NIS2?</h2>
+			<p>
+				Die <strong>NIS2-Richtlinie</strong> (Network and Information Security Directive 2) ist eine EU-weite
+				Gesetzgebung zur Stärkung der Cybersicherheit in Unternehmen und kritischen Infrastrukturen.
+			</p>
+			<p>
+				Sie wurde von der Europäischen Union eingeführt, um sicherzustellen, dass Organisationen in
+				wichtigen Sektoren:
+			</p>
+			<ul class="nis2-list nis2-list--accent">
+				<li>Angemessene Cybersecurity-Maßnahmen</li>
+				<li>Klare Risikomanagement-Prozesse</li>
+				<li>Verpflichtende Meldeverfahren für Sicherheitsvorfälle</li>
+			</ul>
+			<p>implementieren.</p>
+			<p>
+				Die NIS2-Richtlinie ist die Weiterentwicklung der ursprünglichen NIS-Richtlinie von 2016
+				und erweitert sowohl den <strong>Geltungsbereich</strong> als auch die
+				<strong>Sicherheitsanforderungen</strong> erheblich.
+			</p>
+			<div class="nis2-callout">
+				Unternehmen müssen nachweisen können, dass sie ihre IT-Systeme aktiv gegen Cyberangriffe
+				schützen und Risiken systematisch kontrollieren.
+			</div>
+		</section>
+
+		<!-- Ziele -->
+		<section class="nis2-section" id="ziele">
+			<h2 class="nis2-section__title">Ziele der NIS2-Richtlinie</h2>
+			<p>Die EU verfolgt mit NIS2 mehrere zentrale Ziele:</p>
+
+			<div class="nis2-cards">
+				<div class="nis2-card">
+					<!--          <span class="nis2-card__number">1</span>-->
+					<h3 class="nis2-card__title">Stärkung der Cyberresilienz</h3>
+					<p>Organisationen sollen besser gegen Cyberangriffe geschützt werden:</p>
+					<ul class="nis2-list">
+						<li>Ransomware</li>
+						<li>Supply-Chain-Attacken</li>
+						<li>Datenlecks</li>
+						<li>Systemausfälle</li>
+					</ul>
+				</div>
+				<div class="nis2-card">
+					<!--          <span class="nis2-card__number">2</span>-->
+					<h3 class="nis2-card__title">Einheitliche Sicherheitsstandards</h3>
+					<p>Alle Mitgliedstaaten müssen vergleichbare Sicherheitsanforderungen durchsetzen.</p>
+				</div>
+				<div class="nis2-card">
+					<!--          <span class="nis2-card__number">3</span>-->
+					<h3 class="nis2-card__title">Schnellere Meldung</h3>
+					<p>
+						Unternehmen müssen relevante Sicherheitsvorfälle innerhalb von
+						<strong>24 Stunden</strong> melden.
+					</p>
+				</div>
+				<div class="nis2-card">
+					<!--          <span class="nis2-card__number">4</span>-->
+					<h3 class="nis2-card__title">Höhere Management-Verantwortung</h3>
+					<p>
+						Die Geschäftsführung wird stärker in die Verantwortung genommen und kann bei Verstößen
+						<strong>haftbar</strong> gemacht werden.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Wer ist betroffen? -->
+		<section class="nis2-section" id="betroffen">
+			<h2 class="nis2-section__title">Welche Unternehmen betrifft NIS2?</h2>
+			<p>
+				Die Richtlinie betrifft Organisationen aus sogenannten <strong>wesentlichen</strong>
+				(Essential) und <strong>wichtigen</strong> (Important) Sektoren.
+			</p>
+
+			<div class="nis2-two-col">
+				<div class="nis2-col-card nis2-col-card--essential">
+					<h3>Wesentliche Einrichtungen</h3>
+					<span class="nis2-col-card__tag">Essential Entities</span>
+					<ul class="nis2-list">
+						<li>Energieversorger</li>
+						<li>Krankenhäuser</li>
+						<li>Wasserwerke</li>
+						<li>Verkehrsinfrastruktur</li>
+						<li>DNS-Provider</li>
+						<li>Cloud-Provider</li>
+						<li>Rechenzentren</li>
+						<li>Öffentliche Verwaltung</li>
+					</ul>
+				</div>
+				<div class="nis2-col-card nis2-col-card--important">
+					<h3>Wichtige Einrichtungen</h3>
+					<span class="nis2-col-card__tag">Important Entities</span>
+					<ul class="nis2-list">
+						<li>Hersteller kritischer Produkte</li>
+						<li>Digitale Dienste</li>
+						<li>Post- und Kurierdienste</li>
+						<li>Lebensmittelindustrie</li>
+						<li>Chemieunternehmen</li>
+						<li>Forschungsorganisationen</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="nis2-callout nis2-callout--info">
+				Typischerweise betroffen sind Unternehmen mit <strong>über 50 Mitarbeitern</strong> oder
+				<strong>über 10 Millionen Euro Jahresumsatz</strong>.
+			</div>
+		</section>
+
+		<!-- Anforderungen -->
+		<section class="nis2-section" id="anforderungen">
+			<h2 class="nis2-section__title">Zentrale Anforderungen der NIS2</h2>
+			<p>
+				Organisationen müssen ein strukturiertes Cybersecurity-Risikomanagement einführen.
+			</p>
+
+			<div class="nis2-requirements">
+
+				<details class="nis2-req" open>
+					<summary class="nis2-req__header">Risikomanagement</summary>
+					<div class="nis2-req__body">
+						<p>Unternehmen müssen Risiken systematisch identifizieren und bewerten:</p>
+						<ul class="nis2-list">
+							<li>IT-Risikoanalysen</li>
+							<li>Asset-Inventarisierung</li>
+							<li>Bedrohungsanalysen</li>
+						</ul>
+					</div>
+				</details>
+
+				<details class="nis2-req">
+					<summary class="nis2-req__header">Sicherheitsmaßnahmen</summary>
+					<div class="nis2-req__body">
+						<p>Technische und organisatorische Maßnahmen umsetzen:</p>
+						<ul class="nis2-list nis2-list--two-col">
+							<li>Zugriffskontrollen</li>
+							<li>Netzwerksicherheit</li>
+							<li>Verschlüsselung</li>
+							<li>Multi-Factor-Authentication</li>
+							<li>Backup-Strategien</li>
+							<li>Patch-Management</li>
+						</ul>
+					</div>
+				</details>
+
+				<details class="nis2-req">
+					<summary class="nis2-req__header">Incident-Management</summary>
+					<div class="nis2-req__body">
+						<p>Sicherheitsvorfälle müssen strukturiert behandelt werden:</p>
+						<div class="nis2-steps">
+							<div class="nis2-step">
+								<span class="nis2-step__icon">🔍</span>
+								<span>Detection</span>
+							</div>
+							<div class="nis2-step">
+								<span class="nis2-step__icon">📊</span>
+								<span>Analyse</span>
+							</div>
+							<div class="nis2-step">
+								<span class="nis2-step__icon">🛡️</span>
+								<span>Eindämmung</span>
+							</div>
+							<div class="nis2-step">
+								<span class="nis2-step__icon">🔄</span>
+								<span>Wiederherstellung</span>
+							</div>
+						</div>
+					</div>
+				</details>
+
+				<details class="nis2-req">
+					<summary class="nis2-req__header">Supply-Chain-Security</summary>
+					<div class="nis2-req__body">
+						<p>Auch die Sicherheit von Lieferketten und Dienstleistern muss berücksichtigt werden:</p>
+						<ul class="nis2-list">
+							<li>Cloud-Provider</li>
+							<li>Software-Lieferanten</li>
+							<li>IT-Dienstleister</li>
+						</ul>
+					</div>
+				</details>
+
+				<details class="nis2-req">
+					<summary class="nis2-req__header">Business Continuity</summary>
+					<div class="nis2-req__body">
+						<p>Kritische Systeme müssen auch im Notfall funktionieren:</p>
+						<ul class="nis2-list">
+							<li>Backup-Rechenzentren</li>
+							<li>Disaster-Recovery-Pläne</li>
+							<li>Krisenmanagement</li>
+						</ul>
+					</div>
+				</details>
+
+				<details class="nis2-req">
+					<summary class="nis2-req__header">Management-Verantwortung</summary>
+					<div class="nis2-req__body">
+						<p>Die Unternehmensleitung trägt direkte Verantwortung:</p>
+						<ul class="nis2-list">
+							<li>Management muss Sicherheitsmaßnahmen genehmigen</li>
+							<li>Management muss Schulungen absolvieren</li>
+							<li>Management kann bei grober Fahrlässigkeit <strong>haftbar</strong> gemacht werden</li>
+						</ul>
+					</div>
+				</details>
+			</div>
+		</section>
+
+		<!-- Meldepflichten -->
+		<section class="nis2-section" id="meldepflichten">
+			<h2 class="nis2-section__title">Meldepflichten bei Sicherheitsvorfällen</h2>
+			<p>Unternehmen müssen Sicherheitsvorfälle an nationale Behörden melden.</p>
+
+			<div class="nis2-timeline">
+				<div class="nis2-timeline__item nis2-timeline__item--urgent">
+					<span class="nis2-timeline__time">24 Stunden</span>
+					<span class="nis2-timeline__label">Frühwarnmeldung eines potenziellen Vorfalls</span>
+				</div>
+				<div class="nis2-timeline__item nis2-timeline__item--warning">
+					<span class="nis2-timeline__time">72 Stunden</span>
+					<span class="nis2-timeline__label">Erste vollständige Analyse</span>
+				</div>
+				<div class="nis2-timeline__item nis2-timeline__item--info">
+					<span class="nis2-timeline__time">1 Monat</span>
+					<span class="nis2-timeline__label">Abschlussbericht</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Strafen -->
+		<section class="nis2-section" id="strafen">
+			<h2 class="nis2-section__title">Mögliche Strafen bei Verstößen</h2>
+			<p>Die NIS2-Richtlinie sieht erhebliche Strafen vor:</p>
+
+			<div class="nis2-two-col">
+				<div class="nis2-penalty-card nis2-penalty-card--essential">
+					<h3>Wesentliche Einrichtungen</h3>
+					<div class="nis2-penalty-card__amount">bis zu 10 Mio. €</div>
+					<p>oder <strong>2 %</strong> des weltweiten Jahresumsatzes</p>
+				</div>
+				<div class="nis2-penalty-card nis2-penalty-card--important">
+					<h3>Wichtige Einrichtungen</h3>
+					<div class="nis2-penalty-card__amount">bis zu 7 Mio. €</div>
+					<p>oder <strong>1,4 %</strong> des Jahresumsatzes</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Standards -->
+		<section class="nis2-section" id="standards">
+			<h2 class="nis2-section__title">Welche Standards helfen bei der Umsetzung?</h2>
+			<p>Viele Unternehmen nutzen bestehende Sicherheitsstandards, um NIS2-Compliance zu erreichen:</p>
+
+			<div class="nis2-standards-grid">
+				<div class="nis2-standard">
+					<h3 class="nis2-standard__name">ISO/IEC 27001</h3>
+					<p class="nis2-standard__desc">
+						Internationaler Standard für Informationssicherheits-Managementsysteme (ISMS).
+					</p>
+					<ul class="nis2-list">
+						<li>Risikomanagement</li>
+						<li>Sicherheitskontrollen</li>
+						<li>Kontinuierliche Verbesserung</li>
+					</ul>
+				</div>
+				<div class="nis2-standard">
+					<h3 class="nis2-standard__name">ISO/IEC 27002</h3>
+					<p class="nis2-standard__desc">
+						Best Practices für technische und organisatorische Sicherheitsmaßnahmen.
+					</p>
+				</div>
+				<div class="nis2-standard">
+					<h3 class="nis2-standard__name">ISO 22301</h3>
+					<p class="nis2-standard__desc">Standard für Business Continuity Management.</p>
+				</div>
+				<div class="nis2-standard">
+					<h3 class="nis2-standard__name">ISO 27005</h3>
+					<p class="nis2-standard__desc">Standard für Informationssicherheits-Risikomanagement.</p>
+				</div>
+				<div class="nis2-standard nis2-standard--wide">
+					<h3 class="nis2-standard__name">NIST Cybersecurity Framework</h3>
+					<p class="nis2-standard__desc">
+						Ein international verbreitetes Framework mit fünf Kernbereichen:
+					</p>
+					<div class="nis2-nist-pillars">
+						<span class="nis2-nist-pill">Identify</span>
+						<span class="nis2-nist-pill">Protect</span>
+						<span class="nis2-nist-pill">Detect</span>
+						<span class="nis2-nist-pill">Respond</span>
+						<span class="nis2-nist-pill">Recover</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Deutschland -->
+		<section class="nis2-section" id="deutschland">
+			<h2 class="nis2-section__title">Umsetzung von NIS2 in Deutschland</h2>
+			<p>
+				In Deutschland wird NIS2 über das <strong>NIS2-Umsetzungsgesetz (NIS2UmsuCG)</strong>
+				in nationales Recht umgesetzt.
+			</p>
+			<div class="nis2-callout nis2-callout--bsi">
+				<strong>Zuständige Behörde:</strong> BSI - Bundesamt für Sicherheit in der Informationstechnik
+				<ul class="nis2-list">
+					<li>Überwachung von Sicherheitsmaßnahmen</li>
+					<li>Meldepflichten</li>
+					<li>Compliance-Audits</li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Warum wichtig -->
+		<section class="nis2-section" id="warum-wichtig">
+			<h2 class="nis2-section__title">Warum ist NIS2 wichtig?</h2>
+			<p>Cyberangriffe nehmen weltweit stark zu. Die NIS2-Richtlinie soll sicherstellen, dass:</p>
+			<ul class="nis2-list nis2-list--accent">
+				<li>Kritische Infrastruktur geschützt wird</li>
+				<li>Unternehmen Cyberrisiken ernst nehmen</li>
+				<li>Sicherheitsstandards europaweit steigen</li>
+			</ul>
+			<p>
+				Für Organisationen bedeutet dies eine stärkere Integration von Cybersecurity in
+				Geschäftsprozesse und IT-Architektur.
+			</p>
+		</section>
+
+		<!-- Offizielle Quellen -->
+		<section class="nis2-section" id="quellen">
+			<h2 class="nis2-section__title">Offizielle Quellen & weiterführende Informationen</h2>
+			<p>
+				Die folgenden Ressourcen bieten vertiefende Informationen zur NIS2-Richtlinie,
+				technischen Umsetzung und relevanten Sicherheitsstandards.
+			</p>
+
+			<div class="nis2-sources">
+				<div class="nis2-source-group">
+					<h3 class="nis2-source-group__title">EU & Behörden</h3>
+					<div class="nis2-source-cards">
+						<a class="nis2-source-card"
+							 href="https://digital-strategy.ec.europa.eu/en/policies/nis2-directive"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">European Commission</span>
+							<strong class="nis2-source-card__name">NIS2 Directive</strong>
+							<p class="nis2-source-card__desc">
+								Ziele, betroffene Sektoren und die EU-Strategie zur Verbesserung der
+								Cybersicherheit. Die NIS2-Richtlinie schafft einen gemeinsamen rechtlichen
+								Rahmen für Cybersicherheit in kritischen Branchen innerhalb der EU.
+							</p>
+							<span class="nis2-source-card__link">digital-strategy.ec.europa.eu ↗</span>
+						</a>
+						<a class="nis2-source-card"
+							 href="https://www.bsi.bund.de/DE/Themen/Regulierung-und-Standards/NIS-2-regulierte-Unternehmen/nis-2-regulierte-unternehmen_node.html"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">BSI - Deutschland</span>
+							<strong class="nis2-source-card__name">NIS‑2 regulierte Unternehmen</strong>
+							<p class="nis2-source-card__desc">
+								Das BSI erklärt, welche Unternehmen betroffen sind und welche Pflichten
+								gelten - darunter Risikomanagement, Meldepflichten und Registrierungspflichten.
+							</p>
+							<span class="nis2-source-card__link">bsi.bund.de ↗</span>
+						</a>
+						<a class="nis2-source-card"
+							 href="https://www.enisa.europa.eu"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">ENISA</span>
+							<strong class="nis2-source-card__name">NIS2 Technical Guidance</strong>
+							<p class="nis2-source-card__desc">
+								ENISA stellt technische Leitlinien bereit, die Organisationen bei der
+								praktischen Umsetzung der NIS2-Anforderungen unterstützen.
+							</p>
+							<span class="nis2-source-card__link">enisa.europa.eu ↗</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="nis2-source-group">
+					<h3 class="nis2-source-group__title">Cybersecurity Standards & Frameworks</h3>
+					<div class="nis2-source-cards">
+						<a class="nis2-source-card"
+							 href="https://www.iso.org/standard/27001"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">ISO</span>
+							<strong class="nis2-source-card__name">ISO/IEC 27001</strong>
+							<p class="nis2-source-card__desc">
+								Der weltweit bekannteste Standard für Informationssicherheits-Managementsysteme
+								(ISMS) - definiert Anforderungen zur Einführung und kontinuierlichen Verbesserung
+								von Informationssicherheit.
+							</p>
+							<span class="nis2-source-card__link">iso.org ↗</span>
+						</a>
+						<a class="nis2-source-card"
+							 href="https://www.iso.org/standard/iso-27000-family"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">ISO</span>
+							<strong class="nis2-source-card__name">ISO/IEC 27000 Familie</strong>
+							<p class="nis2-source-card__desc">
+								Diese Standardfamilie hilft Organisationen, Informationswerte wie Daten,
+								geistiges Eigentum oder Kundendaten systematisch zu schützen.
+							</p>
+							<span class="nis2-source-card__link">iso.org ↗</span>
+						</a>
+						<a class="nis2-source-card"
+							 href="https://www.nist.gov/cyberframework"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">NIST</span>
+							<strong class="nis2-source-card__name">Cybersecurity Framework (CSF)</strong>
+							<p class="nis2-source-card__desc">
+								Das Framework hilft Organisationen dabei, Cyberrisiken besser zu verstehen,
+								zu bewerten und zu managen.
+							</p>
+							<span class="nis2-source-card__link">nist.gov ↗</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="nis2-source-group">
+					<h3 class="nis2-source-group__title">Weiterführende Informationen</h3>
+					<div class="nis2-source-cards">
+						<a class="nis2-source-card"
+							 href="https://www.nis-2-directive.com"
+							 target="_blank" rel="noopener noreferrer">
+							<span class="nis2-source-card__tag">Übersicht</span>
+							<strong class="nis2-source-card__name">NIS2 Directive Overview</strong>
+							<p class="nis2-source-card__desc">
+								Die NIS2-Richtlinie ist ein EU-Gesetz zur Erhöhung der Sicherheit von
+								Netzwerk- und Informationssystemen und ersetzt die ursprüngliche
+								NIS-Richtlinie von 2016.
+							</p>
+							<span class="nis2-source-card__link">nis-2-directive.com ↗</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- PixelByte -->
+		<section class="nis2-section nis2-section--cta" id="pixelbyte">
+			<h2 class="nis2-section__title">NIS2 Compliance im PixelByte Control Center</h2>
+			<p>Das PixelByte NIS2 Control Center unterstützt Organisationen dabei:</p>
+			<div class="nis2-features">
+				<div class="nis2-feature">
+					<span class="nis2-feature__icon material-symbols-outlined">security</span>
+					<span class="nis2-feature__text">Sicherheitsmaßnahmen verwalten</span>
+				</div>
+				<div class="nis2-feature">
+					<span class="nis2-feature__icon material-symbols-outlined">fact_check</span>
+					<span class="nis2-feature__text">Compliance-Status überwachen</span>
+				</div>
+				<div class="nis2-feature">
+					<span class="nis2-feature__icon material-symbols-outlined">warning</span>
+					<span class="nis2-feature__text">Risiken dokumentieren</span>
+				</div>
+				<div class="nis2-feature">
+					<span class="nis2-feature__icon material-symbols-outlined">bug_report</span>
+					<span class="nis2-feature__text">Vorfälle tracken</span>
+				</div>
+				<div class="nis2-feature">
+					<span class="nis2-feature__icon material-symbols-outlined">insights</span>
+					<span class="nis2-feature__text">Fortschritt der NIS2-Umsetzung messen</span>
+				</div>
+			</div>
+			<div class="nis2-system-features">
+				<span class="nis2-chip">Kontrollkataloge</span>
+				<span class="nis2-chip">Readiness-Score</span>
+				<span class="nis2-chip">Compliance-Dashboards</span>
+				<span class="nis2-chip">Audit-Dokumentation</span>
+			</div>
+		</section>
+
+	</div>
+</article>
+
+</div>
+
