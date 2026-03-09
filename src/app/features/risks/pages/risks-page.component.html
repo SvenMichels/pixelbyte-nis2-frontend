@@ -1,7 +1,12 @@
 <div class="pb-risks-page">
   <header class="pb-risks-page__header">
     <h1 class="page-badge">Risk Management</h1>
-    <button type="button" class="btn btn--primary">
+    <button
+      type="button"
+      class="btn btn--primary"
+      [disabled]="!canCreate()"
+      [title]="canCreate() ? 'Neues Risiko erstellen' : 'Nur ADMIN und SECURITY dürfen Risiken erstellen'"
+      (click)="openCreateDialog()">
       Neues Risiko
     </button>
   </header>
@@ -164,4 +169,10 @@
     </div>
   }
 </div>
+
+@if (showCreateDialog()) {
+  <pb-create-risk-dialog
+    (created)="onRiskCreated($event)"
+    (closed)="closeCreateDialog()" />
+}
 

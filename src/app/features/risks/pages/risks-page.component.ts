@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { RouterLink } from '@angular/router';
 import { RiskDto, RiskStatus, RisksApiService } from '../../../core/api/risks-api.service';
 import { AuthService } from '../../../core/auth/auth.service';
+import { CreateRiskDialogComponent } from '../components/create-risk-dialog.component';
 import { RiskAuditTimelineComponent } from '../components/risk-audit-timeline.component';
 
 type UiState = 'loading' | 'ready' | 'error';
 
 @Component({
   selector: 'pb-risks-page',
-  imports: [CommonModule, RouterLink, RiskAuditTimelineComponent],
+  imports: [CommonModule, RouterLink, RiskAuditTimelineComponent, CreateRiskDialogComponent],
   templateUrl: './risks-page.component.html',
   styleUrl: './risks-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +22,12 @@ export class RisksPageComponent implements OnInit {
   readonly state = signal<UiState>('loading');
   readonly risks = signal<RiskDto[]>([]);
   readonly auditOpen = signal<Record<string, boolean>>({});
+  readonly showCreateDialog = signal(false);
+
+  readonly canCreate = computed(() => {
+    const role = this.auth.currentUser()?.role;
+    return role === 'ADMIN' || role === 'SECURITY';
+  });
 
   readonly searchQuery = signal('');
   readonly statusFilter = signal<RiskStatus | ''>('');
@@ -205,5 +212,19 @@ export class RisksPageComponent implements OnInit {
   }
 
   trackById = (_: number, risk: RiskDto) => risk.id;
+
+  openCreateDialog(): void {
+    if (!this.canCreate()) return;
+    this.showCreateDialog.set(true);
+  }
+
+  closeCreateDialog(): void {
+    this.showCreateDialog.set(false);
+  }
+
+  onRiskCreated(_risk: RiskDto): void {
+    this.showCreateDialog.set(false);
+    this.load();
+  }
 }
 
