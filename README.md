@@ -12,38 +12,52 @@ architecture, security-first design and maintainable state management.
 ## Tech Stack
 
 -   Angular 21 (Standalone Components)
--   TypeScript
+-   TypeScript (strict mode)
 -   Signals (zoneless state management)
--   JWT Authentication
+-   JWT Authentication (access + refresh tokens)
+-   CSRF Protection
 -   REST API (NestJS backend)
 -   Vite dev server
+-   SCSS
 
 ------------------------------------------------------------------------
 
 ## Features
 
--   JWT-based authentication
+-   JWT-based authentication with CSRF protection
 -   Route protection via `canActivate` guard
 -   Automatic token expiry handling
+-   Role-based UI (ADMIN / SECURITY / AUDITOR / USER)
 -   Secure API communication via HTTP interceptor
 -   Modern Angular control flow (`@if`, `@for`)
 -   Signal-based UI state (no Zone.js)
 -   Controls dashboard with audit timeline
+-   Control detail page with evidence management
+-   Risk management with create/edit dialog
+-   NIS2 readiness scoring dashboard
+-   NIS2 information page with official sources
+-   Responsive design with mobile navigation
+-   Accessible (WCAG AA)
 
 ------------------------------------------------------------------------
 
-## Project Structure (simplified)
+## Project Structure
 
     src/
      ├─ app/
      │   ├─ core/
-     │   │   ├─ auth/        # AuthService, Guard, Interceptor
-     │   │   └─ api/         # API services
+     │   │   ├─ auth/        # AuthService, Guard, Interceptors
+     │   │   ├─ api/         # API services (controls, risks, audit, dashboard)
+     │   │   └─ layout/      # Header, Footer
      │   ├─ features/
-     │   │   └─ controls/    # NIS2 Controls UI
+     │   │   ├─ controls/    # Controls list, detail, evidence, audit
+     │   │   └─ risks/       # Risk list, detail, create dialog
      │   ├─ pages/
-     │   │   └─ login/       # Login page
+     │   │   ├─ login/       # Login page
+     │   │   ├─ dashboard/   # Dashboard page
+     │   │   └─ nis2-info/   # NIS2 information page
      │   └─ app.routes.ts
+     ├─ environments/
      └─ main.ts
 
 ------------------------------------------------------------------------
@@ -57,20 +71,26 @@ architecture, security-first design and maintainable state management.
 
 ### Install & Run
 
-``` bash
+```bash
 npm install
 npm start
 ```
 
-Frontend runs on:
+Frontend runs on: `http://localhost:4200`
 
-    http://localhost:4200
-
-Backend is expected on:
-
-    http://localhost:3000
+Backend is expected on: `http://localhost:3000`
 
 API calls are proxied via `/api` (see `proxy.conf.json`).
+
+------------------------------------------------------------------------
+
+## Build
+
+Production build with configured base path:
+
+```bash
+ng build --configuration production
+```
 
 ------------------------------------------------------------------------
 
@@ -85,59 +105,34 @@ API calls are proxied via `/api` (see `proxy.conf.json`).
 -   HTTP interceptor:
     -   Adds `Authorization: Bearer <token>`
     -   Handles 401 responses globally
+-   CSRF token is requested before login
 
 ------------------------------------------------------------------------
 
-## Architecture Notes
+## Architecture
 
-This frontend uses **Angular Signals** and runs **zoneless** (no
-`zone.js`).
+This frontend uses **Angular Signals** and runs **zoneless** (no `zone.js`).
 
 State updates are handled explicitly via signals:
 
-``` ts
+```ts
 state = signal<'loading' | 'ready' | 'error'>('loading');
 controls = signal<ControlDto[]>([]);
 ```
 
-This results in: - Deterministic rendering - No hidden change
-detection - Full control over UI updates
+This results in:
+- Deterministic rendering
+- No hidden change detection
+- Full control over UI updates
 
 ------------------------------------------------------------------------
 
 ## Related Repositories
 
--   Backend API (NestJS):\
-    https://github.com/SvenMichels/pixelbyte-nis2-backend
-
-------------------------------------------------------------------------
-
-## Project Status
-
-Early development preview.\
-Core authentication, routing and control dashboard are implemented.
-
-Planned next steps: - Audit timeline improvements - Role-based UI (ADMIN
-/ SECURITY / AUDITOR) - Export & reporting views - NIS2 readiness
-scoring UI
-
-------------------------------------------------------------------------
-
-## About PixelByte
-
-PixelByte is a personal engineering project focused on:
-
--   Cybersecurity
--   DevSecOps
--   Secure web architectures
--   Learning-by-building real systems
-
-The NIS2 Control Center is designed as a technical showcase and learning
-platform for security engineering concepts.
+-   Backend API (NestJS): [pixelbyte-nis2-backend](https://github.com/SvenMichels/pixelbyte-nis2-backend)
 
 ------------------------------------------------------------------------
 
 ## License
 
-MIT License\
-Free to use, modify and build upon.
+MIT License — free to use, modify and build upon.
