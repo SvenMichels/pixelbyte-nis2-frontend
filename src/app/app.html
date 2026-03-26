@@ -30,6 +30,9 @@
         <a routerLink="/controls" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Controls</a>
         <a routerLink="/risks" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Risks</a>
         <a routerLink="/incidents" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">Incidents</a>
+        @if (isAdmin()) {
+          <a routerLink="/admin/users" routerLinkActive="active" class="app-nav__link app-nav__link--admin" (click)="closeMenu()">Benutzer</a>
+        }
         <a routerLink="/nis2-info" routerLinkActive="active" class="app-nav__link" (click)="closeMenu()">NIS2 Info</a>
 
         <div class="app-nav__spacer"></div>

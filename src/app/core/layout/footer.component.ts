@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 				</nav>
 
 				<div class="app-footer__meta">
-					<span>NIS2 Compliance Tool v0.2.0</span>
+					<span>NIS2 Compliance Tool v0.4.0</span>
 				</div>
 			</div>
 		</footer>

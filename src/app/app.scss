@@ -105,6 +105,16 @@
       outline: 2px solid rgba(122, 162, 255, 0.55);
       outline-offset: 2px;
     }
+
+    &--admin {
+      color: rgba(122, 162, 255, 0.95);
+      opacity: 0.85;
+
+      &.active {
+        background: rgba(122, 162, 255, 0.12);
+        border: 1px solid rgba(122, 162, 255, 0.2);
+      }
+    }
   }
 
   &__logout {

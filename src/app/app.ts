@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from './core/auth/auth.service';
 import { FooterComponent } from './core/layout/footer.component';
@@ -14,6 +14,7 @@ export class App {
     protected readonly auth = inject(AuthService);
     private readonly router = inject(Router);
     protected readonly menuOpen = signal(false);
+    protected readonly isAdmin = computed(() => this.auth.currentUser()?.role === 'ADMIN');
 
     toggleMenu(): void {
         this.menuOpen.update((v) => !v);

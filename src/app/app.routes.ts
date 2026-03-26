@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard } from './core/auth/admin.guard';
 import { authGuard } from './core/auth/auth.guard';
 import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
 
@@ -44,5 +45,10 @@ export const routes: Routes = [
         path: 'incidents/:id',
         loadComponent: () => import('./features/incidents/pages/incident-detail-page.component').then((m) => m.IncidentDetailPageComponent),
         canActivate: [ authGuard ],
+    },
+    {
+        path: 'admin/users',
+        loadComponent: () => import('./features/admin/pages/users-page.component').then((m) => m.UsersPageComponent),
+        canActivate: [ adminGuard ],
     },
 ];
