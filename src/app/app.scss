@@ -7,7 +7,7 @@
 .app-nav {
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem max(1.5rem, calc((100% - 1400px) / 2 + 1.5rem));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -141,10 +141,10 @@
   }
 }
 
-// Mobile burger menu
-@media (max-width: 600px) {
+// Burger menu (tablet + mobile)
+@media (max-width: 900px) {
   .app-nav {
-    padding: 0.6rem 1rem;
+    padding: 0.6rem max(1rem, calc((100% - 1400px) / 2 + 1.5rem));
 
     &__burger {
       display: flex;

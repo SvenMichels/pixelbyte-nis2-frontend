@@ -1,5 +1,5 @@
 .pb-incidents-page {
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
 
@@ -14,7 +14,9 @@
     border: 1px solid rgba(255, 255, 255, .12);
     box-shadow: 0 12px 30px rgba(0, 0, 0, .55);
 
-    h1 { margin: 0; }
+    h1 {
+      margin: 0;
+    }
   }
 
   &__loading,
@@ -45,8 +47,8 @@
   }
 
   &--critical {
-    border-color: #9c27b0;
-    background: rgba(156, 39, 176, 0.1);
+    background: rgba(244, 67, 54, 0.2);
+    border-color: #ef5350;
   }
 
   &--resolved {
@@ -199,17 +201,20 @@
       background: rgba(76, 175, 80, 0.2);
       color: #66bb6a;
     }
+
     &[data-severity='MEDIUM'] {
       background: rgba(255, 152, 0, 0.2);
       color: #ffa726;
     }
+
     &[data-severity='HIGH'] {
       background: rgba(244, 67, 54, 0.2);
       color: #ef5350;
     }
+
     &[data-severity='CRITICAL'] {
-      background: rgba(156, 39, 176, 0.25);
-      color: #ce93d8;
+      background: rgba(244, 67, 54, 0.2);
+      color: #ef5350;
     }
   }
 
@@ -218,30 +223,37 @@
       background: rgba(244, 67, 54, 0.2);
       color: #ef5350;
     }
+
     &[data-status='ANALYSING'] {
       background: rgba(255, 152, 0, 0.2);
       color: #ffa726;
     }
+
     &[data-status='CONTAINED'] {
       background: rgba(33, 150, 243, 0.2);
       color: #42a5f5;
     }
+
     &[data-status='RESOLVED'] {
       background: rgba(76, 175, 80, 0.2);
       color: #66bb6a;
     }
+
     &[data-status='CLOSED'] {
       background: rgba(158, 158, 158, 0.2);
       color: #bdbdbd;
     }
+
     &[data-status='REPORTED_24H'] {
       background: rgba(255, 193, 7, 0.2);
       color: #ffca28;
     }
+
     &[data-status='REPORTED_72H'] {
       background: rgba(255, 193, 7, 0.2);
       color: #ffca28;
     }
+
     &[data-status='REPORT_FINAL'] {
       background: rgba(0, 150, 136, 0.2);
       color: #4db6ac;
