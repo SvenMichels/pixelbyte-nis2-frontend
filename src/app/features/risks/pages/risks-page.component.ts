@@ -65,7 +65,6 @@ export class RisksPageComponent implements OnInit {
     return this.sortRisks(filtered);
   });
 
-  // Computed statistics
   readonly totalRisks = computed(() => this.filteredRisks().length);
 
   readonly criticalRisks = computed(() =>

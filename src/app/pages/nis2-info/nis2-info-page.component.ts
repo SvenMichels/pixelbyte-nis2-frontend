@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
     selector: 'pb-nis2-info-page',
@@ -9,5 +10,7 @@ import { NgOptimizedImage } from '@angular/common';
     styleUrl: './nis2-info-page.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Nis2InfoPageComponent {}
+export class Nis2InfoPageComponent {
+    protected readonly auth = inject(AuthService);
+}
 

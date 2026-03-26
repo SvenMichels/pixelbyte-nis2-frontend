@@ -1,19 +1,21 @@
 <div class="nis2-page">
 
-	<header class="nis2-header" role="banner">
-		<div class="nis2-header__inner">
-			<div class="nis2-header__brand">
-				<img ngSrc="NIS2Icon.png" alt="" width="28" height="28" priority />
-				<span class="nis2-header__title">Pixelbyte</span>
+	@if (!auth.isAuthenticated()) {
+		<header class="nis2-header" role="banner">
+			<div class="nis2-header__inner">
+				<div class="nis2-header__brand">
+					<img ngSrc="NIS2Icon.png" alt="" width="28" height="28" priority />
+					<span class="nis2-header__title">Pixelbyte</span>
+				</div>
+				<span class="nis2-header__product">NIS2 Compliance</span>
+				<div class="nis2-header__spacer"></div>
+				<a routerLink="/login" class="nis2-header__back">
+					<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+					Zurück zum Login
+				</a>
 			</div>
-			<span class="nis2-header__product">NIS2 Compliance</span>
-			<div class="nis2-header__spacer"></div>
-			<a routerLink="/login" class="nis2-header__back">
-				<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-				Zurück zum Login
-			</a>
-		</div>
-	</header>
+		</header>
+	}
 
 <article class="nis2-info">
 
@@ -21,6 +23,7 @@
 	<header class="nis2-hero">
 		<div class="nis2-hero__inner">
 			<span class="nis2-hero__badge">EU-Richtlinie 2022/2555</span>
+			<nav>  </nav>
 			<h1 class="nis2-hero__title">NIS2 - Die EU-Richtlinie für Cybersicherheit</h1>
 			<p class="nis2-hero__lead">
 				Alles, was Sie über die NIS2-Richtlinie wissen müssen - Anforderungen, Pflichten, Strafen
@@ -66,7 +69,6 @@
 
 			<div class="nis2-cards">
 				<div class="nis2-card">
-					<!--          <span class="nis2-card__number">1</span>-->
 					<h3 class="nis2-card__title">Stärkung der Cyberresilienz</h3>
 					<p>Organisationen sollen besser gegen Cyberangriffe geschützt werden:</p>
 					<ul class="nis2-list">
@@ -77,12 +79,10 @@
 					</ul>
 				</div>
 				<div class="nis2-card">
-					<!--          <span class="nis2-card__number">2</span>-->
 					<h3 class="nis2-card__title">Einheitliche Sicherheitsstandards</h3>
 					<p>Alle Mitgliedstaaten müssen vergleichbare Sicherheitsanforderungen durchsetzen.</p>
 				</div>
 				<div class="nis2-card">
-					<!--          <span class="nis2-card__number">3</span>-->
 					<h3 class="nis2-card__title">Schnellere Meldung</h3>
 					<p>
 						Unternehmen müssen relevante Sicherheitsvorfälle innerhalb von
@@ -90,7 +90,6 @@
 					</p>
 				</div>
 				<div class="nis2-card">
-					<!--          <span class="nis2-card__number">4</span>-->
 					<h3 class="nis2-card__title">Höhere Management-Verantwortung</h3>
 					<p>
 						Die Geschäftsführung wird stärker in die Verantwortung genommen und kann bei Verstößen

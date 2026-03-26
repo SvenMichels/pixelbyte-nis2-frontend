@@ -35,4 +35,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/risks/pages/risk-detail-page.component').then((m) => m.RiskDetailPageComponent),
         canActivate: [ authGuard ],
     },
+    {
+        path: 'incidents',
+        loadComponent: () => import('./features/incidents/pages/incidents-page.component').then((m) => m.IncidentsPageComponent),
+        canActivate: [ authGuard ],
+    },
+    {
+        path: 'incidents/:id',
+        loadComponent: () => import('./features/incidents/pages/incident-detail-page.component').then((m) => m.IncidentDetailPageComponent),
+        canActivate: [ authGuard ],
+    },
 ];

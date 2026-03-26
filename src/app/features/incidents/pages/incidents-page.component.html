@@ -1,0 +1,160 @@
+<div class="pb-incidents-page">
+  <header class="pb-incidents-page__header">
+    <h1 class="page-badge">Incident Management</h1>
+    <button
+      type="button"
+      class="btn btn--primary"
+      [disabled]="!canCreate()"
+      [title]="canCreate() ? 'Neuen Vorfall melden' : 'Nur ADMIN und SECURITY dürfen Vorfälle melden'"
+      (click)="openCreateDialog()">
+      Vorfall melden
+    </button>
+  </header>
+
+  <section class="pb-incident-filters">
+    <div class="pb-incident-filters__group">
+      <label class="pb-incident-filters__label" for="incSearch">Suche</label>
+      <input id="incSearch" class="pb-input" type="search" #incSearch (input)="updateSearch(incSearch.value)" />
+    </div>
+    <div class="pb-incident-filters__group">
+      <label class="pb-incident-filters__label" for="incStatus">Status</label>
+      <select id="incStatus" class="pb-select" #incStatus (change)="updateStatusFilter(incStatus.value)">
+        <option value="">Alle</option>
+        @for (s of statusOptions; track s) {
+          <option [value]="s">{{ getStatusLabel(s) }}</option>
+        }
+      </select>
+    </div>
+    <div class="pb-incident-filters__group">
+      <label class="pb-incident-filters__label" for="incSeverity">Schweregrad</label>
+      <select id="incSeverity" class="pb-select" #incSeverity (change)="updateSeverityFilter(incSeverity.value)">
+        <option value="">Alle</option>
+        @for (s of severityOptions; track s) {
+          <option [value]="s">{{ getSeverityLabel(s) }}</option>
+        }
+      </select>
+    </div>
+    <div class="pb-incident-filters__group">
+      <label class="pb-incident-filters__label" for="incSort">Sortierung</label>
+      <div class="pb-incident-filters__row">
+        <select id="incSort" class="pb-select" #incSort (change)="updateSortKey(incSort.value)">
+          <option value="createdAt">Datum</option>
+          <option value="title">Titel</option>
+          <option value="status">Status</option>
+          <option value="severity">Schweregrad</option>
+        </select>
+        <select class="pb-select" #incSortDir (change)="updateSortDir(incSortDir.value)">
+          <option value="desc">Absteigend</option>
+          <option value="asc">Aufsteigend</option>
+        </select>
+      </div>
+    </div>
+    <div class="pb-incident-filters__actions">
+      <button type="button" class="btn btn--ghost" (click)="clearFilters()">Filter zurücksetzen</button>
+    </div>
+  </section>
+
+  @if (state() === 'loading') {
+    <div class="pb-incidents-page__loading">Lade Vorfälle…</div>
+  } @else if (state() === 'error') {
+    <div class="pb-incidents-page__error">
+      Fehler beim Laden der Vorfälle.
+      <button type="button" (click)="load()">Erneut versuchen</button>
+    </div>
+  } @else {
+    <div class="pb-incident-stats">
+      <div class="pb-incident-stat-card">
+        <div class="pb-incident-stat-card__value">{{ totalIncidents() }}</div>
+        <div class="pb-incident-stat-card__label">Gesamt</div>
+      </div>
+      <div class="pb-incident-stat-card pb-incident-stat-card--open">
+        <div class="pb-incident-stat-card__value">{{ openIncidents() }}</div>
+        <div class="pb-incident-stat-card__label">Offen</div>
+      </div>
+      <div class="pb-incident-stat-card pb-incident-stat-card--critical">
+        <div class="pb-incident-stat-card__value">{{ criticalIncidents() }}</div>
+        <div class="pb-incident-stat-card__label">Kritisch</div>
+      </div>
+      <div class="pb-incident-stat-card pb-incident-stat-card--resolved">
+        <div class="pb-incident-stat-card__value">{{ resolvedIncidents() }}</div>
+        <div class="pb-incident-stat-card__label">Behoben</div>
+      </div>
+    </div>
+
+    <div class="pb-incidents-list">
+      @if (filteredIncidents().length === 0) {
+        <div class="pb-incidents-list__empty">Keine Vorfälle vorhanden.</div>
+      } @else {
+        @for (inc of filteredIncidents(); track trackById($index, inc)) {
+          <article class="pb-incident-card">
+            <header class="pb-incident-card__header">
+              <div>
+                <h3 class="pb-incident-card__title">{{ inc.title }}</h3>
+                <a class="pb-link" [routerLink]="['/incidents', inc.id]">Details</a>
+              </div>
+              <div class="pb-incident-card__badges">
+                <span class="pb-badge pb-badge--severity" [attr.data-severity]="inc.severity">
+                  {{ getSeverityLabel(inc.severity) }}
+                </span>
+                <span class="pb-badge pb-badge--inc-status" [attr.data-status]="inc.status">
+                  {{ getStatusLabel(inc.status) }}
+                </span>
+              </div>
+            </header>
+
+            @if (inc.description) {
+              <p class="pb-incident-card__description">{{ inc.description }}</p>
+            }
+
+            <div class="pb-incident-card__info">
+              <div class="pb-incident-info">
+                <span class="pb-incident-info__label">Gemeldet</span>
+                <span class="pb-incident-info__value">{{ inc.reportedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+              </div>
+              @if (inc.resolvedAt) {
+                <div class="pb-incident-info">
+                  <span class="pb-incident-info__label">Behoben</span>
+                  <span class="pb-incident-info__value">{{ inc.resolvedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+                </div>
+              }
+              @if (inc.controls && inc.controls.length > 0) {
+                <div class="pb-incident-info">
+                  <span class="pb-incident-info__label">Verknüpfte Controls</span>
+                  <span class="pb-incident-info__value">{{ inc.controls.length }}</span>
+                </div>
+              }
+            </div>
+
+            <footer class="pb-incident-card__footer">
+              <div class="pb-incident-card__meta">
+                @if (inc.owner) {
+                  <span>Owner: {{ inc.owner.email }}</span>
+                }
+                <span>Erstellt: {{ inc.createdAt | date:'dd.MM.yyyy' }}</span>
+              </div>
+              <button
+                type="button"
+                class="btn btn--ghost btn--sm"
+                (click)="toggleAudit(inc.id)">
+                @if (isAuditOpen(inc.id)) { Audit ausblenden } @else { Audit anzeigen }
+              </button>
+            </footer>
+
+            @if (isAuditOpen(inc.id)) {
+              <pb-incident-audit-timeline
+                [incidentId]="inc.id"
+                [active]="isAuditOpen(inc.id)" />
+            }
+          </article>
+        }
+      }
+    </div>
+  }
+</div>
+
+@if (showCreateDialog()) {
+  <pb-create-incident-dialog
+    (created)="onIncidentCreated()"
+    (closed)="closeCreateDialog()" />
+}
+

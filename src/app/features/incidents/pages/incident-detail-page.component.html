@@ -1,0 +1,105 @@
+@if (state() === 'loading') {
+  <div class="pb-detail-page pb-detail-page--loading">Lade Vorfall…</div>
+} @else if (state() === 'error') {
+  <div class="pb-detail-page pb-detail-page--error">
+    {{ errorMessage() ?? 'Fehler beim Laden.' }}
+    <a routerLink="/incidents" class="pb-link">Zurück zur Liste</a>
+  </div>
+} @else if (incident(); as inc) {
+  <div class="pb-detail-page">
+    <header class="pb-detail-page__header">
+      <div class="pb-detail-page__nav">
+        <a routerLink="/incidents" class="pb-link">← Zurück zur Liste</a>
+      </div>
+      <div class="pb-detail-page__top">
+        <h1>{{ inc.title }}</h1>
+        <div class="pb-detail-page__badges">
+          <span class="pb-badge pb-badge--severity" [attr.data-severity]="inc.severity">
+            {{ getSeverityLabel(inc.severity) }}
+          </span>
+          <span class="pb-badge pb-badge--inc-status" [attr.data-status]="inc.status">
+            {{ getStatusLabel(inc.status) }}
+          </span>
+        </div>
+      </div>
+    </header>
+
+    @if (inc.description) {
+      <section class="pb-detail-section">
+        <h2>Beschreibung</h2>
+        <p class="pb-detail-text">{{ inc.description }}</p>
+      </section>
+    }
+
+    <section class="pb-detail-section">
+      <h2>Details</h2>
+      <div class="pb-detail-grid">
+        <div class="pb-detail-item">
+          <span class="pb-detail-item__label">Gemeldet</span>
+          <span class="pb-detail-item__value">{{ inc.reportedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+        </div>
+        @if (inc.resolvedAt) {
+          <div class="pb-detail-item">
+            <span class="pb-detail-item__label">Behoben</span>
+            <span class="pb-detail-item__value">{{ inc.resolvedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
+        }
+        <div class="pb-detail-item">
+          <span class="pb-detail-item__label">Owner</span>
+          <span class="pb-detail-item__value">{{ inc.owner?.email ?? 'Nicht zugewiesen' }}</span>
+        </div>
+        <div class="pb-detail-item">
+          <span class="pb-detail-item__label">Erstellt</span>
+          <span class="pb-detail-item__value">{{ inc.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+        </div>
+        <div class="pb-detail-item">
+          <span class="pb-detail-item__label">Aktualisiert</span>
+          <span class="pb-detail-item__value">{{ inc.updatedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+        </div>
+      </div>
+    </section>
+
+    @if (canEdit()) {
+      <section class="pb-detail-section">
+        <h2>Status ändern</h2>
+        <div class="pb-status-actions">
+          @for (s of statusOptions; track s) {
+            <button
+              type="button"
+              class="btn btn--status"
+              [class.btn--active]="inc.status === s"
+              [disabled]="statusUpdating() || inc.status === s"
+              (click)="changeStatus(s)">
+              {{ getStatusLabel(s) }}
+            </button>
+          }
+        </div>
+      </section>
+    }
+
+    @if (linkedControls().length > 0) {
+      <section class="pb-detail-section">
+        <h2>Verknüpfte Controls</h2>
+        <div class="pb-linked-list">
+          @for (link of linkedControls(); track link.controlId) {
+            <a class="pb-linked-item" [routerLink]="['/controls', link.control.id]">
+              <span class="pb-linked-item__code">{{ link.control.code }}</span>
+              <span class="pb-linked-item__title">{{ link.control.title }}</span>
+              <span class="pb-badge pb-badge--sm" [attr.data-status]="link.control.status">
+                {{ link.control.status }}
+              </span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+
+    <section class="pb-detail-section">
+      <h2>Audit Timeline</h2>
+      <pb-incident-audit-timeline
+        [incidentId]="inc.id"
+        [active]="true" />
+    </section>
+  </div>
+}
+

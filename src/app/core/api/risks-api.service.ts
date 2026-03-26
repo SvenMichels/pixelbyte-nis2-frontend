@@ -153,12 +153,10 @@ export class RisksApiService {
     return this.http.get<AuditEventsResponse>(url);
   }
 
-  // Helper: Calculate risk score (severity × likelihood)
   calculateRiskScore(risk: RiskDto): number {
     return risk.severity * risk.likelihood;
   }
 
-  // Helper: Get risk level based on score
   getRiskLevel(score: number): 'low' | 'medium' | 'high' | 'critical' {
     if (score <= 6) return 'low';
     if (score <= 12) return 'medium';
@@ -166,7 +164,6 @@ export class RisksApiService {
     return 'critical';
   }
 
-  // Helper: Get status label in German
   getStatusLabel(status: RiskStatus): string {
     const labels: Record<RiskStatus, string> = {
       IDENTIFIED: 'Identifiziert',

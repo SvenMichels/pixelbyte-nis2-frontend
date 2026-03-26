@@ -1,0 +1,43 @@
+<section class="pb-audit">
+  @if (state() === 'loading') {
+    <div class="pb-audit__hint">Lade Audit…</div>
+  } @else if (state() === 'error') {
+    <div class="pb-audit__hint pb-audit__hint--error">
+      Audit konnte nicht geladen werden.
+    </div>
+  } @else if (state() === 'empty') {
+    <div class="pb-audit__hint">Noch keine Audit-Events.</div>
+  } @else {
+    <ul class="pb-audit__list">
+      @for (e of events(); track trackById($index, e)) {
+        @let v = view(e);
+
+        <li class="pb-audit__item">
+          <div class="pb-audit__top">
+            <span class="pb-audit__badge">{{ v.badge }}</span>
+            <span class="pb-audit__title">{{ v.title }}</span>
+          </div>
+
+          <div class="pb-audit__meta">
+            <span>{{ actorLabel(e) }}</span>
+            <span>{{ e.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
+
+          @if (v.details) {
+            <div class="pb-audit__details">{{ v.details }}</div>
+          }
+        </li>
+      }
+    </ul>
+
+    <div class="pb-audit__pager">
+      <button class="btn" type="button" [disabled]="!hasMore() || loadingMore()" (click)="loadMore()">
+        @if (loadingMore()) { Laden… } @else { Mehr laden }
+      </button>
+      @if (!hasMore()) {
+        <span class="pb-audit__hint">Keine weiteren Events.</span>
+      }
+    </div>
+  }
+</section>
+
