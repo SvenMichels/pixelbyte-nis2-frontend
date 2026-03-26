@@ -1,0 +1,114 @@
+<div class="pb-users-page">
+	<header class="pb-users-page__header">
+		<h1 class="page-badge">Benutzerverwaltung</h1>
+		<button
+					type="button"
+					class="btn btn--primary"
+					(click)="openCreateDialog()">
+			Benutzer anlegen
+		</button>
+	</header>
+
+	@if (state() === 'loading') {
+		<div class="pb-users-page__loading">Lade Benutzer…</div>
+	} @else if (state() === 'error') {
+		<div class="pb-users-page__error">
+			Fehler beim Laden der Benutzer.
+			<button type="button" (click)="load()">Erneut versuchen</button>
+		</div>
+	} @else {
+		<div class="pb-users-stats">
+			<div class="pb-users-stat">
+				<div class="pb-users-stat__value">{{ totalUsers() }}</div>
+				<div class="pb-users-stat__label">Gesamt</div>
+			</div>
+			<div class="pb-users-stat pb-users-stat--admin">
+				<div class="pb-users-stat__value">{{ adminCount() }}</div>
+				<div class="pb-users-stat__label">Admins</div>
+			</div>
+			<div class="pb-users-stat pb-users-stat--security">
+				<div class="pb-users-stat__value">{{ securityCount() }}</div>
+				<div class="pb-users-stat__label">Security</div>
+			</div>
+			<div class="pb-users-stat pb-users-stat--auditor">
+				<div class="pb-users-stat__value">{{ auditorCount() }}</div>
+				<div class="pb-users-stat__label">Auditor</div>
+			</div>
+			<div class="pb-users-stat pb-users-stat--user">
+				<div class="pb-users-stat__value">{{ userCount() }}</div>
+				<div class="pb-users-stat__label">Users</div>
+			</div>
+		</div>
+
+		@if (actionError()) {
+			<div class="pb-users-page__action-error" role="alert">
+				{{ actionError() }}
+			</div>
+		}
+
+		<div class="pb-users-table-wrap">
+			<table class="pb-users-table" role="table">
+				<thead>
+				<tr>
+					<th scope="col">E-Mail</th>
+					<th scope="col">Rolle</th>
+					<th scope="col">Erstellt</th>
+					<th scope="col">Letzte Änderung</th>
+					<th scope="col"><span class="sr-only">Aktionen</span></th>
+				</tr>
+				</thead>
+				<tbody>
+					@for (user of users(); track trackById($index, user)) {
+						<tr [class.pb-users-table__row--self]="user.id === currentUserId()">
+							<td class="pb-users-table__email">{{ user.email }}</td>
+							<td class="pb-users-table__role">
+								<span class="pb-role-badge" [attr.data-role]="user.role">
+									{{ getRoleLabel(user.role) }}
+								</span>
+							</td>
+							<td class="pb-users-table__date">{{ formatDate(user.createdAt) }}</td>
+							<td class="pb-users-table__date">{{ formatDate(user.updatedAt) }}</td>
+							<td class="pb-users-table__actions">
+								@if (user.id === currentUserId()) {
+									<span class="pb-users-table__self-tag">Du</span>
+								} @else if (isBusy(user.id)) {
+									<span class="pb-users-table__busy">Wird verarbeitet…</span>
+								} @else {
+									<div class="pb-users-table__row-actions">
+										<button
+													type="button"
+													class="btn btn--sm btn--ghost"
+													(click)="openEditDialog(user)"
+													[attr.aria-label]="'Benutzer ' + user.email + ' bearbeiten'">
+											Bearbeiten
+										</button>
+										<button
+													type="button"
+													class="btn btn--sm btn--danger"
+													(click)="confirmDelete(user)"
+													[attr.aria-label]="'Benutzer ' + user.email + ' löschen'">
+											Löschen
+										</button>
+									</div>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+</div>
+
+@if (showCreateDialog()) {
+	<pb-create-user-dialog
+				(created)="onUserCreated()"
+				(closed)="closeCreateDialog()" />
+}
+
+@if (editingUser(); as user) {
+	<pb-edit-user-dialog
+				[user]="user"
+				(updated)="onUserUpdated()"
+				(closed)="closeEditDialog()" />
+}
