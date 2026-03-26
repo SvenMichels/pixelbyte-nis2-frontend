@@ -1,0 +1,299 @@
+/* ============================
+   Create Risk Dialog
+   ============================ */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+  animation: backdrop-in 0.15s ease-out;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.dialog {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(15, 20, 32, 0.97), rgba(12, 17, 27, 0.97));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 80px rgba(122, 162, 255, 0.04);
+  animation: dialog-in 0.2s ease-out;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Header ---------- */
+.dialog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dialog__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.dialog__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text, #e7edf7);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(122, 162, 255, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Form ---------- */
+.dialog__form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dialog__label {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+  color: var(--muted, rgba(231, 237, 247, 0.7));
+  text-transform: uppercase;
+}
+
+.dialog__input {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text, #e7edf7);
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: rgba(231, 237, 247, 0.28);
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: rgba(122, 162, 255, 0.55);
+    box-shadow: 0 0 0 3px rgba(122, 162, 255, 0.12);
+  }
+
+  &--invalid {
+    border-color: rgba(255, 90, 122, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(255, 90, 122, 0.1);
+  }
+
+  &--textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+}
+
+.dialog__field-error {
+  font-size: 0.76rem;
+  font-weight: 550;
+  color: rgba(255, 90, 122, 0.92);
+}
+
+/* ---------- Row (3 cols) ---------- */
+.dialog__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* ---------- Score Preview ---------- */
+.dialog__preview {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dialog__preview-label {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.dialog__preview-score {
+  font-size: 1.4rem;
+  font-weight: 750;
+
+  &[data-level='critical'] { color: #ef4444; }
+  &[data-level='high']     { color: #f97316; }
+  &[data-level='medium']   { color: #eab308; }
+  &[data-level='low']      { color: #10b981; }
+}
+
+.dialog__preview-level {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+}
+
+/* ---------- Server Error ---------- */
+.dialog__error {
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 90, 122, 0.3);
+  background: rgba(255, 90, 122, 0.06);
+  color: rgba(255, 90, 122, 0.95);
+  font-size: 0.83rem;
+  font-weight: 550;
+  animation: error-in 0.2s ease-out;
+}
+
+@keyframes error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Footer ---------- */
+.dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-top: 0.5rem;
+}
+
+.dialog__btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid rgba(122, 162, 255, 0.55);
+    outline-offset: 2px;
+  }
+
+  &--cancel {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent;
+    color: var(--text, #e7edf7);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  &--submit {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid rgba(67, 255, 210, 0.3);
+    background: linear-gradient(135deg, rgba(67, 255, 210, 0.12), rgba(122, 162, 255, 0.07));
+    color: rgba(67, 255, 210, 0.95);
+
+    &:hover:not(:disabled) {
+      border-color: rgba(67, 255, 210, 0.55);
+      background: linear-gradient(135deg, rgba(67, 255, 210, 0.2), rgba(122, 162, 255, 0.1));
+      box-shadow: 0 4px 20px rgba(67, 255, 210, 0.08);
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* ---------- Spinner ---------- */
+.dialog__spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(67, 255, 210, 0.25);
+  border-top-color: rgba(67, 255, 210, 0.9);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .dialog {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .dialog__form {
+    padding: 1.25rem;
+  }
+
+  .dialog__row {
+    grid-template-columns: 1fr;
+  }
+
+  .dialog__footer {
+    flex-direction: column-reverse;
+  }
+
+  .dialog__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
