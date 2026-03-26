@@ -75,6 +75,35 @@
             </div>
           </div>
         </div>
+
+        @if (hasIncidents()) {
+          <div class="pb-stat-card">
+            <h3 class="section-badge">Incidents</h3>
+            <div class="pb-stat-card__main">
+              <div class="pb-stat-card__value">{{ stats()!.incidents!.total }}</div>
+              <div class="pb-stat-card__label">Gesamt</div>
+            </div>
+            <div class="pb-stat-card__details">
+              <div class="pb-stat-detail pb-stat-detail--highlight" [attr.data-color]="incidentOpenColor()">
+                <span>Offen:</span>
+                <strong>{{ stats()!.incidents!.open }}</strong>
+              </div>
+              <div class="pb-stat-detail pb-stat-detail--resolved">
+                <span>Behoben:</span>
+                <strong>{{ stats()!.incidents!.resolved }}</strong>
+              </div>
+              @if (stats()!.incidents!.bySeverity['CRITICAL']; as critical) {
+                <div class="pb-stat-detail pb-stat-detail--critical">
+                  <span>Kritisch:</span>
+                  <strong>{{ critical }}</strong>
+                </div>
+              }
+            </div>
+            <a [routerLink]="['/incidents']" class="pb-stat-card__link">
+              Zu Incidents →
+            </a>
+          </div>
+        }
       </div>
 
       @if (hasTopRisks()) {
@@ -108,6 +137,10 @@
                   @else if (event.action === 'STATUS_CHANGED') { S }
                   @else if (event.action === 'EVIDENCE_CREATED') { E+ }
                   @else if (event.action === 'EVIDENCE_DELETED') { E- }
+                  @else if (event.action === 'INCIDENT_REPORTED') { ⚠ }
+                  @else if (event.action === 'INCIDENT_RESOLVED') { ✓ }
+                  @else if (event.action === 'RISK_CONTROL_LINKED') { ⇄ }
+                  @else if (event.action === 'RISK_CONTROL_UNLINKED') { ✕ }
                   @else { * }
                 </div>
                 <div class="pb-recent-event__content">

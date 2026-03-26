@@ -34,6 +34,15 @@ export class DashboardPageComponent implements OnInit {
     return Array.isArray(topRisks) && topRisks.length > 0;
   });
 
+  readonly hasIncidents = computed(() => (this.stats()?.incidents?.total ?? 0) > 0);
+
+  readonly incidentOpenColor = computed(() => {
+    const open = this.stats()?.incidents?.open ?? 0;
+    if (open === 0) return 'green';
+    if (open <= 3) return 'yellow';
+    return 'red';
+  });
+
   ngOnInit(): void {
     if (!this.auth.isAuthenticated() || !this.auth.currentUser()) {
       return;
@@ -69,6 +78,10 @@ export class DashboardPageComponent implements OnInit {
     if (action === 'UPDATED') return `${type} aktualisiert`;
     if (action === 'EVIDENCE_CREATED') return 'Evidence hochgeladen';
     if (action === 'EVIDENCE_DELETED') return 'Evidence gelöscht';
+    if (action === 'INCIDENT_REPORTED') return 'Vorfall gemeldet';
+    if (action === 'INCIDENT_RESOLVED') return 'Vorfall behoben';
+    if (action === 'RISK_CONTROL_LINKED') return `${type} mit Control verknüpft`;
+    if (action === 'RISK_CONTROL_UNLINKED') return `${type}-Control Verknüpfung gelöst`;
     return `${type} ${action}`;
   }
 

@@ -29,6 +29,13 @@ export interface DashboardStats {
         totalEvents: number;
         last24h: number;
     };
+    incidents?: {
+        total: number;
+        byStatus: Record<string, number>;
+        bySeverity: Record<string, number>;
+        open: number;
+        resolved: number;
+    };
 }
 
 export interface RecentAuditEvent {
